@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,7 +56,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Compile Include="Controls\SnippetEditor.xaml.cs">
+      <DependentUpon>SnippetEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PNetJson\DynamicEnumerable.cs" />
+    <Compile Include="PNetJson\JOPair.cs" />
+    <Compile Include="PNetJson\JSONArray.cs" />
+    <Compile Include="PNetJson\JSONLogger.cs" />
+    <Compile Include="PNetJson\JSONObject.cs" />
+    <Compile Include="PNetJson\JsonPos.cs" />
+    <Compile Include="PNetJson\JsonValidateError.cs" />
+    <Compile Include="PNetJson\JsonValidater.cs" />
+    <Compile Include="PNetJson\JSONValue.cs" />
+    <Compile Include="PNetJson\JSONValueType.cs" />
+    <Compile Include="PNetJson\Parser.cs" />
+    <Compile Include="Source\Settings.cs" />
+    <Compile Include="Source\Snippet.cs" />
+    <Compile Include="Source\CustomCommands.cs" />
+    <Page Include="Controls\SnippetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -63,7 +85,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Controls\StretchingTreeView.cs" />
+    <Compile Include="Source\Filters\IFilterData.cs" />
+    <Compile Include="Source\Filters\LabelData.cs" />
+    <Compile Include="Source\Filters\LabelsData.cs" />
+    <Compile Include="Source\Filters\LibrariesData.cs" />
+    <Compile Include="Source\Icons.cs" />
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -86,6 +114,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -94,6 +123,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\label.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\copy.png" />
+    <Resource Include="Icons\cross.png" />
+    <Resource Include="Icons\plus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

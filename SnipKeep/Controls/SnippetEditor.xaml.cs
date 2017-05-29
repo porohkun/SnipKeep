@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SnipKeep
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SnippetEditor.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class SnippetEditor : UserControl
     {
-        public MainWindow()
+        public SnippetEditor()
         {
             InitializeComponent();
         }
