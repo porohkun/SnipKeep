@@ -9,6 +9,8 @@ namespace SnipKeep
 {
     static class CustomCommands
     {
+        public static RoutedCommand NewSnippet = new RoutedCommand();
         public static RoutedCommand CopyCode = new RoutedCommand();
+        public static RoutedCommand DeleteSnippet = new RoutedCommand();
     }
 }

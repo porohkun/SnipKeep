@@ -30,7 +30,7 @@ namespace SnipKeep
                 return _libraries;
             }
         }
-        
+
         private ObservableCollection<LabelData> _labels;
         public ObservableCollection<LabelData> Labels
         {
@@ -41,7 +41,7 @@ namespace SnipKeep
                 return _labels;
             }
         }
-        
+
         private ObservableCollection<Snippet> _snippets;
         public ObservableCollection<Snippet> Snippets
         {
@@ -178,26 +178,27 @@ namespace RoboTanks.Battle
             Icons.Load();
             InitializeComponent();
             DataContext = this;
-            
-            var words = lorem.Replace("\r\n", "").Replace(";", " ").Replace("0", " ").Replace("1", " ").Replace(":", " ").Replace("{", " ").Replace("}", " ").Replace("(", " ").Replace(")", " ").Replace(".", " ").Replace("=", " ").Replace("<", " ").Replace(">", " ").Replace("?", " ").Replace("!", " ").Replace("+", " ").Replace("-", " ").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Replace("  ", " ");
-            var w = words.Split(' ').Where(e => e.Length > 0).Distinct();
-            foreach (var tag in w)
-            {
-                Labels.Add(new LabelData() { Name = tag });
-            }
-            
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var snippet = new Snippet()
-                {
-                    Text = lorem.Substring(0, rnd.Next(lorem.Length / 2, lorem.Length))
-                };
-                for (int t = 0; t < rnd.Next(2, 5); t++)
-                    snippet.Tags.Add((LabelData)Labels[rnd.Next(0, Labels.Count)]);
-                snippet.Save();
-                Snippets.Add(snippet);
-            }
+
+            //var words = lorem.Replace("\r\n", "").Replace(";", " ").Replace(",", " ").Replace("0", " ").Replace("1", " ").Replace(":", " ").Replace("{", " ").Replace("}", " ").Replace("(", " ").Replace(")", " ").Replace(".", " ").Replace("=", " ").Replace("<", " ").Replace(">", " ").Replace("?", " ").Replace("!", " ").Replace("+", " ").Replace("-", " ").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Replace("  ", " ");
+            //var w = words.Split(' ').Where(e => e.Length > 0).Distinct();
+            //foreach (var tag in w)
+            //{
+            //    Labels.Add(new LabelData() { Name = tag });
+            //}
+            //Labels.Sort();
+            //var rnd = new Random();
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    var snippet = new Snippet()
+            //    {
+            //        Text = lorem.Substring(0, rnd.Next(lorem.Length / 2, lorem.Length))
+            //    };
+            //    for (int t = 0; t < rnd.Next(2, 5); t++)
+            //        snippet.AddTag((LabelData)Labels[rnd.Next(0, Labels.Count)]);
+            //    snippet.Save();
+            //    Snippets.Add(snippet);
+            //}
+            //Snippets.Sort();
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Snippets);
             view.Filter = SnippetFilter;
@@ -219,6 +220,11 @@ namespace RoboTanks.Battle
 
         }
 
+        private void snippetsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            editor.Snippet = (Snippet)snippetsList.SelectedItem;
+        }
+
         #region Commands
 
         private void CommonCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -226,13 +232,38 @@ namespace RoboTanks.Battle
             e.CanExecute = true;
         }
 
-        private void CommandBinding_New(object sender, ExecutedRoutedEventArgs e)
+        private void CommandBinding_Close(object sender, ExecutedRoutedEventArgs e)
         {
+            this.Close();
+        }
 
+        private void CommandBinding_NewSnippet(object sender, ExecutedRoutedEventArgs e)
+        {
+            var snip = Library.Loaded[0].CreateSnippet();
+            Snippets.Add(snip);
+            Snippets.Sort();
+            snippetsList.SelectedItem = snip;
+        }
+
+        private void CommandBinding_DeleteSnippet(object sender, ExecutedRoutedEventArgs e)
+        {
+            var snip = (Snippet)snippetsList.SelectedItem;
+            int i = Snippets.IndexOf(snip);
+            snip.Library.RemoveSnippet(snip);
+            Snippets.Remove(snip);
+            if (i == Snippets.Count)
+                i--;
+            if (i >= 0)
+                snippetsList.SelectedItem = Snippets[i];
+        }
+
+        private void CommandBinding_CopyCode(object sender, ExecutedRoutedEventArgs e)
+        {
+            Clipboard.SetText(((Snippet)snippetsList.SelectedItem).Text);
         }
 
         #endregion
-        
+
     }
 
 }

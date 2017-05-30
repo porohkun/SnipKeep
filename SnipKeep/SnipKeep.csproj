@@ -70,10 +70,16 @@
     <Compile Include="PNetJson\JSONValue.cs" />
     <Compile Include="PNetJson\JSONValueType.cs" />
     <Compile Include="PNetJson\Parser.cs" />
+    <Compile Include="Source\Extensions.cs" />
+    <Compile Include="Source\Library.cs" />
     <Compile Include="Source\Settings.cs" />
     <Compile Include="Source\Snippet.cs" />
     <Compile Include="Source\CustomCommands.cs" />
     <Page Include="Controls\SnippetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TagsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -88,9 +94,11 @@
     <Compile Include="Controls\StretchingTreeView.cs" />
     <Compile Include="Source\Filters\IFilterData.cs" />
     <Compile Include="Source\Filters\LabelData.cs" />
-    <Compile Include="Source\Filters\LabelsData.cs" />
     <Compile Include="Source\Filters\LibrariesData.cs" />
     <Compile Include="Source\Icons.cs" />
+    <Compile Include="TagsControl.xaml.cs">
+      <DependentUpon>TagsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace SnipKeep
 {
-    public class LabelData : IFilterData
+    public class LabelData : IFilterData, IComparable, IComparable<LabelData>
     {
         private ImageSource _iconSource;
         public ImageSource IconSource { get { if (_iconSource == null) _iconSource = Icons.Sources["label.png"]; return _iconSource; } }
@@ -16,5 +16,14 @@ namespace SnipKeep
         public int Count { get { return 3; } }
         public ObservableCollection<IFilterData> Items { get { return null; } }
 
+        public int CompareTo(object obj)
+        {
+            return CompareTo((LabelData)obj);
+        }
+
+        public int CompareTo(LabelData other)
+        {
+            return Name.CompareTo(other.Name);
+        }
     }
 }
