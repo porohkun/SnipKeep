@@ -31,7 +31,6 @@ namespace SnipKeep
             get { return _snippet; }
             set { _snippet = value; UpdateBindings(); }
         }
-        //, Mode=TwoWay, UpdateSourceTrigger=Explicit
         public string SnipName
         {
             get { return _snippet == null ? "" : _snippet.Name; }
@@ -80,31 +79,32 @@ namespace SnipKeep
                 }
             }
         }
-        //public IEnumerable<LabelData> Tags { get { return _tags; } }
-
-        private BindingExpression[] _bindings;
+        public List<Label> Tags
+        {
+            get { return _snippet == null ? null : (List<Label>)_snippet.Tags; }
+            set
+            {
+                if (_snippet != null)
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+                }
+            }
+        }
         
         public SnippetEditor()
         {
             InitializeComponent();
             DataContext = this;
-
-            _bindings = new BindingExpression[]
-            {
-                nameBox.GetBindingExpression(TextBox.TextProperty),
-                descrBox.GetBindingExpression(TextBox.TextProperty),
-                textBox.GetBindingExpression(TextBox.TextProperty)
-            };
+            
         }
 
         private void UpdateBindings()
         {
-            //foreach (var binding in _bindings)
-            //    binding.UpdateTarget();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SnipName"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
         }
 
     }

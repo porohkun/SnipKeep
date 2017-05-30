@@ -8,17 +8,17 @@
              d:DesignHeight="300" d:DesignWidth="300" x:Name="edit">
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <ListBox x:Name="highlightBox" DockPanel.Dock="Right"/>
-            <TextBox x:Name="nameBox" Text="{Binding SnipName}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Right"/>
+            <ListBox DockPanel.Dock="Right" Width="100"/>
+            <TextBox Text="{Binding SnipName}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Right"/>
         </DockPanel>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
-        <TextBox x:Name="descrBox" Text="{Binding Description}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" Height="60"/>
+        <TextBox Text="{Binding Description}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" Height="60"/>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
         <DockPanel DockPanel.Dock="Top">
             <TextBlock DockPanel.Dock="Left" Text="Labels" Width="100" HorizontalAlignment="Right"/>
-            <local:TagsControl x:Name="tagsBox" DockPanel.Dock="Left" />
+            <local:TagsControl Tags="{Binding Tags}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Left" />
         </DockPanel>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
-        <TextBox x:Name="textBox" Text="{Binding Text}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
+        <TextBox Text="{Binding Text}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
     </DockPanel>
 </UserControl>

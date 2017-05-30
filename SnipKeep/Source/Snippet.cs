@@ -8,10 +8,25 @@ using System.ComponentModel;
 
 namespace SnipKeep
 {
-    public class Snippet: INotifyPropertyChanged, IComparable, IComparable<Snippet>
+    public class Snippet : INotifyPropertyChanged, IComparable, IComparable<Snippet>
     {
         #region INotifyPropertyChanged Members
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+        #region IComparable, IComparable<Snippet> Members
+
+        public int CompareTo(object obj)
+        {
+            return CompareTo((Snippet)obj);
+        }
+
+        public int CompareTo(Snippet other)
+        {
+            return Name.CompareTo(other.Name);
+        }
+
         #endregion
 
         private bool _saved = false;
@@ -22,7 +37,7 @@ namespace SnipKeep
         public string _oldFilename;
         public string _filename;
         public string _text;
-        private List<LabelData> _tags = new List<LabelData>();
+        private List<Label> _tags = new List<Label>();
 
         public string Name
         {
@@ -78,7 +93,7 @@ namespace SnipKeep
                 }
             }
         }
-        public IEnumerable<LabelData> Tags { get { return _tags; } }
+        public IEnumerable<Label> Tags { get { return _tags; } }
         public string TagsString
         {
             get
@@ -92,6 +107,14 @@ namespace SnipKeep
                 }
                 return sb.ToString();
             }
+            set
+            {
+                if (value == TagsString) return;
+                var line = value.Replace(" ", "").Split(',').ToArray();
+                _tags.Clear();
+                _tags.AddRange(Label.Labels.Where(l => line.Contains(l.Name)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
+            }
         }
 
         public Library Library { get; private set; }
@@ -101,19 +124,21 @@ namespace SnipKeep
             Library = lib;
         }
 
-        public bool AddTag(LabelData tag)
+        public bool AddTag(Label tag)
         {
             if (_tags.Contains(tag)) return false;
             _tags.Add(tag);
             _tags.Sort();
+            tag.AddSnippet(this);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
             return true;
         }
 
-        public bool RemoveTag(LabelData tag)
+        public bool RemoveTag(Label tag)
         {
             if (!_tags.Contains(tag)) return false;
             _tags.Remove(tag);
+            tag.RemoveSnippet(this);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
             return true;
         }
@@ -127,14 +152,5 @@ namespace SnipKeep
             }
         }
 
-        public int CompareTo(object obj)
-        {
-            return CompareTo((Snippet)obj);
-        }
-
-        public int CompareTo(Snippet other)
-        {
-            return Name.CompareTo(other.Name);
-        }
     }
 }

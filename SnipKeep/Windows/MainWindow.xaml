@@ -79,7 +79,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Width="Auto" HorizontalAlignment="Stretch">
-                                    <Image DockPanel.Dock="Left" Source="{Binding IconSource}"/>
+                                    <Image DockPanel.Dock="Left" Source="/Icons/label.png"/>
                                     <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"/>
                                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" HorizontalAlignment="Right"/>
                                 </DockPanel>

@@ -31,13 +31,13 @@ namespace SnipKeep
             }
         }
 
-        private ObservableCollection<LabelData> _labels;
-        public ObservableCollection<LabelData> Labels
+        private ObservableCollection<Label> _labels;
+        public ObservableCollection<Label> Labels
         {
             get
             {
                 if (_labels == null)
-                    _labels = new ObservableCollection<LabelData>();
+                    _labels = Label.Labels;
                 return _labels;
             }
         }
@@ -179,26 +179,26 @@ namespace RoboTanks.Battle
             InitializeComponent();
             DataContext = this;
 
-            //var words = lorem.Replace("\r\n", "").Replace(";", " ").Replace(",", " ").Replace("0", " ").Replace("1", " ").Replace(":", " ").Replace("{", " ").Replace("}", " ").Replace("(", " ").Replace(")", " ").Replace(".", " ").Replace("=", " ").Replace("<", " ").Replace(">", " ").Replace("?", " ").Replace("!", " ").Replace("+", " ").Replace("-", " ").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Replace("  ", " ");
-            //var w = words.Split(' ').Where(e => e.Length > 0).Distinct();
-            //foreach (var tag in w)
-            //{
-            //    Labels.Add(new LabelData() { Name = tag });
-            //}
-            //Labels.Sort();
-            //var rnd = new Random();
-            //for (int i = 0; i < 1000; i++)
-            //{
-            //    var snippet = new Snippet()
-            //    {
-            //        Text = lorem.Substring(0, rnd.Next(lorem.Length / 2, lorem.Length))
-            //    };
-            //    for (int t = 0; t < rnd.Next(2, 5); t++)
-            //        snippet.AddTag((LabelData)Labels[rnd.Next(0, Labels.Count)]);
-            //    snippet.Save();
-            //    Snippets.Add(snippet);
-            //}
-            //Snippets.Sort();
+            var words = lorem.Replace("\r\n", "").Replace(";", " ").Replace(",", " ").Replace("0", " ").Replace("1", " ").Replace(":", " ").Replace("{", " ").Replace("}", " ").Replace("(", " ").Replace(")", " ").Replace(".", " ").Replace("=", " ").Replace("<", " ").Replace(">", " ").Replace("?", " ").Replace("!", " ").Replace("+", " ").Replace("-", " ").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Replace("  ", " ");
+            var w = words.Split(' ').Where(e => e.Length > 0).Distinct();
+            foreach (var tag in w)
+            {
+                Labels.Add(new Label() { Name = tag });
+            }
+            Labels.Sort();
+            var rnd = new Random();
+            for (int i = 0; i < 1000; i++)
+            {
+                var snippet = new Snippet(Library.Loaded[0])
+                {
+                    Text = lorem.Substring(0, rnd.Next(lorem.Length / 2, lorem.Length))
+                };
+                for (int t = 0; t < rnd.Next(2, 5); t++)
+                    snippet.AddTag((Label)Labels[rnd.Next(0, Labels.Count)]);
+                snippet.Save();
+                Snippets.Add(snippet);
+            }
+            Snippets.Sort();
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Snippets);
             view.Filter = SnippetFilter;
@@ -208,7 +208,7 @@ namespace RoboTanks.Battle
         {
             var snipped = item as Snippet;
             if (labelList.SelectedItems.Count == 0) return true;
-            foreach (LabelData selected in labelList.SelectedItems)
+            foreach (Label selected in labelList.SelectedItems)
                 if (!snipped.Tags.Contains(selected))
                     return false;
             return true;
