@@ -417,6 +417,8 @@ namespace WpfControls.Editors
             _selectionCancelled = true;
         }
 
+        public event Action SelectionAdapterCommit;
+
         private void OnSelectionAdapterCommit()
         {
             if (ItemsSelector.SelectedItem != null)
@@ -427,6 +429,7 @@ namespace WpfControls.Editors
                 SetSelectedItem(ItemsSelector.SelectedItem);
                 _isUpdatingText = false;
                 IsDropDownOpen = false;
+                SelectionAdapterCommit?.Invoke();
             }
         }
 

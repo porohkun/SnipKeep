@@ -107,5 +107,14 @@ namespace SnipKeep
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
         }
 
+        private void TagsControl_TagAdded(Label tag)
+        {
+            _snippet.AddTag(tag);
+        }
+
+        private void TagsControl_TagRemoved(Label tag)
+        {
+            _snippet.RemoveTag(tag);
+        }
     }
 }

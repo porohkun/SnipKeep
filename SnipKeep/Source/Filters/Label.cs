@@ -30,7 +30,7 @@ namespace SnipKeep
         }
 
         #endregion
-
+        
         private static ObservableCollection<Label> _labels = new ObservableCollection<Label>();
         public static ObservableCollection<Label> Labels { get { return _labels; } }
 
@@ -51,7 +51,7 @@ namespace SnipKeep
         }
         public int Count { get { return _snippets.Count; } }
 
-        public Label()
+        private Label()
         {
             _snippets = new List<Snippet>();
         }
@@ -74,5 +74,15 @@ namespace SnipKeep
             }
         }
 
+        internal static Label GetLabelByName(string tag)
+        {
+            var label = Labels.FirstOrDefault(l => l.Name == tag);
+            if (label == null)
+            {
+                label = new Label() { Name = tag };
+                Labels.Add(label);
+            }
+            return label;
+        }
     }
 }

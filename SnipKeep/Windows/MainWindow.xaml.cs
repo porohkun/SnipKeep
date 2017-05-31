@@ -179,26 +179,26 @@ namespace RoboTanks.Battle
             InitializeComponent();
             DataContext = this;
 
-            var words = lorem.Replace("\r\n", "").Replace(";", " ").Replace(",", " ").Replace("0", " ").Replace("1", " ").Replace(":", " ").Replace("{", " ").Replace("}", " ").Replace("(", " ").Replace(")", " ").Replace(".", " ").Replace("=", " ").Replace("<", " ").Replace(">", " ").Replace("?", " ").Replace("!", " ").Replace("+", " ").Replace("-", " ").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Replace("  ", " ");
-            var w = words.Split(' ').Where(e => e.Length > 0).Distinct();
-            foreach (var tag in w)
-            {
-                Labels.Add(new Label() { Name = tag });
-            }
-            Labels.Sort();
-            var rnd = new Random();
-            for (int i = 0; i < 1000; i++)
-            {
-                var snippet = new Snippet(Library.Loaded[0])
-                {
-                    Text = lorem.Substring(0, rnd.Next(lorem.Length / 2, lorem.Length))
-                };
-                for (int t = 0; t < rnd.Next(2, 5); t++)
-                    snippet.AddTag((Label)Labels[rnd.Next(0, Labels.Count)]);
-                snippet.Save();
-                Snippets.Add(snippet);
-            }
-            Snippets.Sort();
+            //var words = lorem.Replace("\r\n", "").Replace(";", " ").Replace(",", " ").Replace("0", " ").Replace("1", " ").Replace(":", " ").Replace("{", " ").Replace("}", " ").Replace("(", " ").Replace(")", " ").Replace(".", " ").Replace("=", " ").Replace("<", " ").Replace(">", " ").Replace("?", " ").Replace("!", " ").Replace("+", " ").Replace("-", " ").Replace("    ", " ").Replace("   ", " ").Replace("  ", " ").Replace("  ", " ");
+            //var w = words.Split(' ').Where(e => e.Length > 0).Distinct();
+            //foreach (var tag in w)
+            //{
+            //    Labels.Add(new Label() { Name = tag });
+            //}
+            //Labels.Sort();
+            //var rnd = new Random();
+            //for (int i = 0; i < 1000; i++)
+            //{
+            //    var snippet = new Snippet(Library.Loaded[0])
+            //    {
+            //        Text = lorem.Substring(0, rnd.Next(lorem.Length / 2, lorem.Length))
+            //    };
+            //    for (int t = 0; t < rnd.Next(2, 5); t++)
+            //        snippet.AddTag((Label)Labels[rnd.Next(0, Labels.Count)]);
+            //    snippet.Save();
+            //    Snippets.Add(snippet);
+            //}
+            //Snippets.Sort();
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Snippets);
             view.Filter = SnippetFilter;

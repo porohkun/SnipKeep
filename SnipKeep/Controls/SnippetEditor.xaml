@@ -16,9 +16,9 @@
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
         <DockPanel DockPanel.Dock="Top">
             <TextBlock DockPanel.Dock="Left" Text="Labels" Width="100" HorizontalAlignment="Right"/>
-            <local:TagsControl Tags="{Binding Tags}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Left" />
+            <local:TagsControl Tags="{Binding Tags}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Left" TagAdded="TagsControl_TagAdded" TagRemoved="TagsControl_TagRemoved"/>
         </DockPanel>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
-        <TextBox Text="{Binding Text}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" VerticalAlignment="Stretch"/>
+        <TextBox Text="{Binding Text}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" FontFamily="Consolas" VerticalAlignment="Stretch"/>
     </DockPanel>
 </UserControl>
