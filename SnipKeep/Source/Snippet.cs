@@ -72,6 +72,7 @@ namespace SnipKeep
                 }
             }
         }
+
         public string Filename
         {
             get { return _filename; }
@@ -150,6 +151,14 @@ namespace SnipKeep
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
         }
 
+        internal void Delete()
+        {
+            if (File.Exists(_path))
+                File.Delete(_path);
+            if (File.Exists(_metaPath))
+                File.Delete(_metaPath);
+        }
+
         internal void RegenFilename()
         {
             _filename = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
@@ -181,7 +190,7 @@ namespace SnipKeep
             {
                 File.WriteAllText(_path, Text);
                 JSONValue json = new JSONObject(
-                    new JOPair("name",Name),
+                    new JOPair("name", Name),
                     new JOPair("tags", new JSONArray(Tags.Select(t => (JSONValue)t.Name))),
                     new JOPair("description", Description)
                     );

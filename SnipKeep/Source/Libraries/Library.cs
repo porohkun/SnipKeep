@@ -62,6 +62,7 @@ namespace SnipKeep
         public virtual void RemoveSnippet(Snippet snip)
         {
             _snippets.Remove(snip);
+            snip.Delete();
             Snippet.Snippets.Remove(snip);
             OnPropertyChanged(this, new PropertyChangedEventArgs("Count"));
         }
