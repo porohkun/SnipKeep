@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using PNetJson;
+using System.Collections.ObjectModel;
 
 namespace SnipKeep
 {
@@ -29,14 +31,19 @@ namespace SnipKeep
 
         #endregion
 
+        private static ObservableCollection<Snippet> _snippets = new ObservableCollection<Snippet>();
+        public static ObservableCollection<Snippet> Snippets { get { return _snippets; } }
+
         private bool _saved = false;
         public bool Saved { get { return _saved; } private set { _saved = value; } }
 
-        public string _name;
-        public string _description;
-        public string _oldFilename;
-        public string _filename;
-        public string _text;
+        private string _name;
+        private string _description;
+        //private string _oldFilename;
+        private string _filename;
+        private string _path { get { return Path.Combine(Library.SnippetsPath, Filename); } }
+        private string _metaPath { get { return Path.Combine(Library.SnippetsPath, Path.GetFileNameWithoutExtension(Filename) + ".meta"); } }
+        private string _text;
         private List<Label> _tags = new List<Label>();
 
         public string Name
@@ -68,17 +75,17 @@ namespace SnipKeep
         public string Filename
         {
             get { return _filename; }
-            set
-            {
-                if (_filename != value)
-                {
-                    if (_oldFilename == "")
-                        _oldFilename = _filename;
-                    _filename = value;
-                    Saved = false;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
-                }
-            }
+            //set
+            //{
+            //    if (_filename != value)
+            //    {
+            //        if (_oldFilename == "")
+            //            _oldFilename = _filename;
+            //        _filename = value;
+            //        Saved = false;
+            //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
+            //    }
+            //}
         }
         public string Text
         {
@@ -119,18 +126,43 @@ namespace SnipKeep
 
         public Library Library { get; private set; }
 
-        public Snippet(Library lib)
+        internal Snippet(Library lib)
         {
             Library = lib;
+            RegenFilename();
         }
 
-        public bool AddTag(Label tag)
+        public Snippet(Library lib, string filename) : this(lib)
+        {
+            _filename = filename;
+            UpdateFromSaved(true);
+        }
+
+        internal void UpdateFromSaved(bool load = false)
+        {
+            Text = File.ReadAllText(_path);
+            var json = JSONValue.Load(_metaPath);
+            _name = json["name"];
+            Description = json["description"];
+            foreach (var tagname in json["tags"])
+                AddTag(Label.GetLabelByName(tagname), true);
+            if (!load)
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+        }
+
+        internal void RegenFilename()
+        {
+            _filename = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
+        }
+
+        public bool AddTag(Label tag, bool silent = false)
         {
             if (_tags.Contains(tag)) return false;
             _tags.Add(tag);
             _tags.Sort();
             tag.AddSnippet(this);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
+            if (!silent)
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
             return true;
         }
 
@@ -139,16 +171,21 @@ namespace SnipKeep
             if (!_tags.Contains(tag)) return false;
             _tags.Remove(tag);
             tag.RemoveSnippet(this);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
             return true;
         }
 
         public void Save()
         {
-            if (Filename == null || Filename == "")
+            if (!Saved)
             {
-                Name = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
-                Filename = Name + ".cs";
+                File.WriteAllText(_path, Text);
+                JSONValue json = new JSONObject(
+                    new JOPair("name",Name),
+                    new JOPair("tags", new JSONArray(Tags.Select(t => (JSONValue)t.Name))),
+                    new JOPair("description", Description)
+                    );
+                json.Save(_metaPath);
             }
         }
 

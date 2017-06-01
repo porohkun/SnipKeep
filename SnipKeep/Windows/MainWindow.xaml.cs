@@ -20,13 +20,13 @@ namespace SnipKeep
 {
     public partial class MainWindow : Window
     {
-        private ObservableCollection<LibrariesData> _libraries;
-        public ObservableCollection<LibrariesData> Libraries
+        private ObservableCollection<Library> _libraries;
+        public ObservableCollection<Library> Libraries
         {
             get
             {
                 if (_libraries == null)
-                    _libraries = new ObservableCollection<LibrariesData>();
+                    _libraries = Library.Loaded;
                 return _libraries;
             }
         }
@@ -48,7 +48,7 @@ namespace SnipKeep
             get
             {
                 if (_snippets == null)
-                    _snippets = new ObservableCollection<Snippet>();
+                    _snippets = Snippet.Snippets;
                 return _snippets;
             }
         }
@@ -237,10 +237,20 @@ namespace RoboTanks.Battle
             this.Close();
         }
 
+        private void CommandBinding_LoadLib(object sender, ExecutedRoutedEventArgs e)
+        {
+            Libraries[0].LoadLibrary();
+        }
+
+        private void CommandBinding_SaveLib(object sender, ExecutedRoutedEventArgs e)
+        {
+            Libraries[0].SaveLibrary();
+        }
+        
         private void CommandBinding_NewSnippet(object sender, ExecutedRoutedEventArgs e)
         {
-            var snip = Library.Loaded[0].CreateSnippet();
-            Snippets.Add(snip);
+            var lib = librariesList.SelectedItem == null ? Library.Loaded[0] : (Library)librariesList.SelectedItem;
+            var snip = lib.CreateSnippet();
             Snippets.Sort();
             snippetsList.SelectedItem = snip;
         }
@@ -250,7 +260,6 @@ namespace RoboTanks.Battle
             var snip = (Snippet)snippetsList.SelectedItem;
             int i = Snippets.IndexOf(snip);
             snip.Library.RemoveSnippet(snip);
-            Snippets.Remove(snip);
             if (i == Snippets.Count)
                 i--;
             if (i >= 0)

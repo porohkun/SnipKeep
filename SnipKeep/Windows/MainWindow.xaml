@@ -10,6 +10,8 @@
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
     <Window.CommandBindings>
+        <CommandBinding Command="Open"                               Executed="CommandBinding_LoadLib"       CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="Save"                               Executed="CommandBinding_SaveLib"       CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="Close"                              Executed="CommandBinding_Close"         CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="local:CustomCommands.NewSnippet"    Executed="CommandBinding_NewSnippet"    CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="local:CustomCommands.CopyCode"      Executed="CommandBinding_CopyCode"      CanExecute="CommonCommandBinding_CanExecute" />
@@ -19,6 +21,9 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
+                <MenuItem Header="Reload Library" Command="Open"/>
+                <MenuItem Header="Save Library" Command="Save"/>
+                <Separator/>
                 <MenuItem Header="E_xit" Command="Close"/>
             </MenuItem>
             <MenuItem Header="_Snippet">
@@ -53,7 +58,7 @@
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Width="32" Height="32" Source="/Icons/copy.png" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                        <TextBlock Text="New Snippet" VerticalAlignment="Center"/>
+                        <TextBlock Text="Copy Code" VerticalAlignment="Center"/>
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -61,7 +66,7 @@
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Width="32" Height="32" Source="/Icons/cross.png" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                        <TextBlock Text="New Snippet" VerticalAlignment="Center"/>
+                        <TextBlock Text="Delete Snippet" VerticalAlignment="Center"/>
                     </StackPanel>
                 </MenuItem.Header>
             </MenuItem>
@@ -74,12 +79,12 @@
             </Grid.ColumnDefinitions>
             <ScrollViewer Grid.Column="0" Margin="0,0,5,0" VerticalScrollBarVisibility="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                 <StackPanel Orientation="Vertical">
-                    <CheckBox x:Name="librTog" Content="Libraries" HorizontalContentAlignment="Left"/>
+                    <CheckBox x:Name="librTog" Content="Libraries" HorizontalContentAlignment="Left" IsChecked="True"/>
                     <ListView x:Name="librariesList" ItemsSource="{Binding Libraries, Mode=OneWay}" Visibility="{Binding IsChecked,ElementName=librTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Width="Auto" HorizontalAlignment="Stretch">
-                                    <Image DockPanel.Dock="Left" Source="/Icons/label.png"/>
+                                    <Image DockPanel.Dock="Left" Source="{Binding IconSource}"/>
                                     <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"/>
                                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" HorizontalAlignment="Right"/>
                                 </DockPanel>
@@ -91,7 +96,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Width="Auto" HorizontalAlignment="Stretch">
-                                    <Image DockPanel.Dock="Left" Source="{Binding IconSource}"/>
+                                    <Image DockPanel.Dock="Left" Source="/Icons/label.png"/>
                                     <TextBlock DockPanel.Dock="Left" Text="{Binding Name}"/>
                                     <TextBlock DockPanel.Dock="Right" Text="{Binding Count}" HorizontalAlignment="Right"/>
                                 </DockPanel>

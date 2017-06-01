@@ -55,18 +55,18 @@ namespace SnipKeep
                 }
             }
         }
-        public string Filename
-        {
-            get { return _snippet == null ? "" : _snippet.Filename; }
-            set
-            {
-                if (_snippet != null)
-                {
-                    _snippet.Filename = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
-                }
-            }
-        }
+        //public string Filename
+        //{
+        //    get { return _snippet == null ? "" : _snippet.Filename; }
+        //    set
+        //    {
+        //        if (_snippet != null)
+        //        {
+        //            _snippet.Filename = value;
+        //            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
+        //        }
+        //    }
+        //}
         public string Text
         {
             get { return _snippet == null ? "" : _snippet.Text; }

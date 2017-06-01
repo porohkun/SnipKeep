@@ -13,7 +13,9 @@
                 <TextBlock Text="{Binding Path=Name}"></TextBlock>
             </Grid>
         </DataTemplate>
-
+        <ContextMenu x:Key="popup">
+            <MenuItem Header="Remove" Click="ButtonPopup_Click"/>
+        </ContextMenu>
     </UserControl.Resources>
     <WrapPanel x:Name="panel" Orientation="Horizontal">
         <my:AutoCompleteTextBox x:Name="newTagBox" HorizontalAlignment="Left" Text="" Margin="3" MaxLength="50" CharacterCasing="Upper" DisplayMember="Name" MinWidth="80"

@@ -72,7 +72,10 @@
     <Compile Include="PNetJson\JSONValueType.cs" />
     <Compile Include="PNetJson\Parser.cs" />
     <Compile Include="Source\Extensions.cs" />
-    <Compile Include="Source\Library.cs" />
+    <Compile Include="Source\Libraries\GitLibrary.cs" />
+    <Compile Include="Source\Libraries\Library.cs" />
+    <Compile Include="Source\Libraries\LibraryMeta.cs" />
+    <Compile Include="Source\Libraries\LocalLibrary.cs" />
     <Compile Include="Source\Settings.cs" />
     <Compile Include="Source\Snippet.cs" />
     <Compile Include="Source\CustomCommands.cs" />
@@ -93,8 +96,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\StretchingTreeView.cs" />
-    <Compile Include="Source\Filters\Label.cs" />
-    <Compile Include="Source\Filters\LibrariesData.cs" />
+    <Compile Include="Source\Label.cs" />
     <Compile Include="Source\Icons.cs" />
     <Compile Include="Controls\TagsControl.xaml.cs">
       <DependentUpon>TagsControl.xaml</DependentUpon>
@@ -146,6 +148,10 @@
       <Project>{bb2abb74-ba58-4812-83aa-ec8171f42df4}</Project>
       <Name>WpfControls.CS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\database.png" />
+    <Resource Include="Icons\git.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

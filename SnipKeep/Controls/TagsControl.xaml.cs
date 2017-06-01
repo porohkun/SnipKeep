@@ -73,6 +73,7 @@ namespace SnipKeep
             button.Loaded += Button_Loaded;
             button.Click += Button_Click;
             SetTagToButton(button, label);
+            button.ContextMenu = Resources["popup"] as ContextMenu;
             return button;
         }
 
@@ -83,9 +84,18 @@ namespace SnipKeep
             (button.Template.FindName("contentPresenter", button) as ContentPresenter).Margin = new Thickness(3, 0, 3, 0);
         }
 
+        private void ButtonPopup_Click(object sender, RoutedEventArgs e)
+        {
+            TagRemoved?.Invoke((((sender as MenuItem).Parent as ContextMenu).PlacementTarget as Button).Tag as Label);
+            RefreshTags();
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TagRemoved?.Invoke((Label)((Button)sender).Tag);
+            var popup = (sender as Button).ContextMenu;
+            popup.PlacementTarget = (UIElement)sender;
+            popup.Visibility = Visibility.Visible;
+            popup.IsOpen = true;
         }
 
         private void newTagBox_Loaded(object sender, RoutedEventArgs e)
@@ -93,7 +103,7 @@ namespace SnipKeep
             newTagBox.Editor.TextChanged += Editor_TextChanged;
             newTagBox.Editor.KeyDown += Editor_KeyDown;
         }
-        
+
         private void ProcessTags(string text)
         {
             var tags = text.Split(',', ';', ':', ' ', '/', '\\', '|').Distinct();

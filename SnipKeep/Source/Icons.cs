@@ -18,6 +18,8 @@ namespace SnipKeep
             Load("cross.png");
             Load("plus.png");
             Load("label.png");
+            Load("database.png");
+            Load("git.png");
         }
 
         private static void Load(string icon)
