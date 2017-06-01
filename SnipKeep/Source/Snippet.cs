@@ -195,6 +195,7 @@ namespace SnipKeep
                     new JOPair("description", Description)
                     );
                 json.Save(_metaPath);
+                _saved = true;
             }
         }
 

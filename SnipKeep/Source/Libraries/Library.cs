@@ -55,6 +55,7 @@ namespace SnipKeep
                 snip.Text = Clipboard.GetText();
             _snippets.Add(snip);
             Snippet.Snippets.Add(snip);
+            snip.Save();
             OnPropertyChanged(this, new PropertyChangedEventArgs("Count"));
             return snip;
         }
