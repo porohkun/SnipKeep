@@ -118,7 +118,7 @@
             </ListView>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
             <Rectangle Grid.Column="2" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
-            <local:SnippetEditor x:Name="editor" Grid.Column="2" Margin="5"/>
+            <local:SnippetEditor x:Name="editor" Grid.Column="2" Margin="5" IsEnabled="False"/>
         </Grid>
     </DockPanel>
 </Window>

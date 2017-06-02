@@ -223,6 +223,7 @@ namespace RoboTanks.Battle
         private void snippetsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             editor.Snippet = (Snippet)snippetsList.SelectedItem;
+            editor.IsEnabled = snippetsList.SelectedItem != null;
         }
 
         #region Commands
