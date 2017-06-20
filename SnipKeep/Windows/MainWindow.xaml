@@ -77,10 +77,10 @@
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="0" Margin="0,0,5,0" VerticalScrollBarVisibility="Auto" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+            <ScrollViewer Grid.Column="0" Margin="0,0,5,0" VerticalScrollBarVisibility="Auto" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox x:Name="librTog" Content="Libraries" HorizontalContentAlignment="Left" IsChecked="True"/>
-                    <ListView x:Name="librariesList" ItemsSource="{Binding Libraries, Mode=OneWay}" Visibility="{Binding IsChecked,ElementName=librTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                    <ListView x:Name="librariesList" ItemsSource="{Binding Libraries, Mode=OneWay}" Visibility="{Binding IsChecked,ElementName=librTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{x:Null}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Width="Auto" HorizontalAlignment="Stretch">
@@ -92,7 +92,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                     <CheckBox x:Name="lablTog" Content="Labels" HorizontalContentAlignment="Left" IsChecked="True" Margin="0,10,0,0"/>
-                    <ListView x:Name="labelList" ItemsSource="{Binding Labels, Mode=OneWay}" SelectionChanged="labelList_SelectionChanged" Visibility="{Binding IsChecked,ElementName=lablTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+                    <ListView x:Name="labelList" ItemsSource="{Binding Labels, Mode=OneWay}" SelectionChanged="labelList_SelectionChanged" Visibility="{Binding IsChecked,ElementName=lablTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{x:Null}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Width="Auto" HorizontalAlignment="Stretch">
