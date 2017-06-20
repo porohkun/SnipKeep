@@ -37,13 +37,13 @@ namespace SnipKeep
         private bool _saved = false;
         public bool Saved { get { return _saved; } private set { _saved = value; } }
 
-        private string _name;
-        private string _description;
+        private string _name = "";
+        private string _description = "";
         //private string _oldFilename;
         private string _filename;
         private string _path { get { return Path.Combine(Library.SnippetsPath, Filename); } }
         private string _metaPath { get { return Path.Combine(Library.SnippetsPath, Path.GetFileNameWithoutExtension(Filename) + ".meta"); } }
-        private string _text;
+        private string _text = "";
         private List<Label> _tags = new List<Label>();
 
         public string Name

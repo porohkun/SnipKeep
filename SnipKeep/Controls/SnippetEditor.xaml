@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SnipKeep"
+             xmlns:avalon="http://icsharpcode.net/sharpdevelop/avalonedit"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" x:Name="edit">
     <DockPanel>
@@ -19,6 +20,16 @@
             <local:TagsControl Tags="{Binding Tags}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Left" TagAdded="TagsControl_TagAdded" TagRemoved="TagsControl_TagRemoved"/>
         </DockPanel>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
-        <TextBox Text="{Binding Text}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" FontFamily="Consolas" VerticalAlignment="Stretch"/>
+        <avalon:TextEditor x:Name="textEditor" DataContext="{Binding ElementName=edit}" ShowLineNumbers="True" DockPanel.Dock="Top" VerticalScrollBarVisibility="Visible" FontFamily="Consolas" FontSize="10pt" SyntaxHighlighting="C#" VerticalAlignment="Stretch">
+            <avalon:TextEditor.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Cut" Click="Cut_Click"/>
+                    <MenuItem Header="Copy" Click="Copy_Click"/>
+                    <MenuItem Header="Paste" Click="Paste_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Indent" Click="Indent_Click"/>
+                </ContextMenu>
+            </avalon:TextEditor.ContextMenu>
+        </avalon:TextEditor>
     </DockPanel>
 </UserControl>

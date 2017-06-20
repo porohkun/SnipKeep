@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Folding;
+using ICSharpCode.AvalonEdit.Indentation.CSharp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace SnipKeep
 {
@@ -90,12 +94,25 @@ namespace SnipKeep
                 }
             }
         }
-        
+
         public SnippetEditor()
         {
             InitializeComponent();
             DataContext = this;
-            
+            textEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(textEditor.Options);
+            _foldingStrategy = new BraceFoldingStrategy();
+            _foldingManager = FoldingManager.Install(textEditor.TextArea);
+            textEditor.TextChanged += TextEditor_TextChanged;
+
+            _foldingUpdateTimer = new DispatcherTimer();
+            _foldingUpdateTimer.Interval = TimeSpan.FromSeconds(2);
+            _foldingUpdateTimer.Tick += delegate { UpdateFoldings(); };
+            _foldingUpdateTimer.Start();
+        }
+
+        private void TextEditor_TextChanged(object sender, EventArgs e)
+        {
+            Text = textEditor.Text;
         }
 
         private void UpdateBindings()
@@ -105,6 +122,7 @@ namespace SnipKeep
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            textEditor.Text = Text;
         }
 
         private void TagsControl_TagAdded(Label tag)
@@ -116,5 +134,43 @@ namespace SnipKeep
         {
             _snippet.RemoveTag(tag);
         }
+
+        #region context menu
+
+        private void Cut_Click(object sender, RoutedEventArgs e)
+        {
+            textEditor.Cut();
+        }
+
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            textEditor.Copy();
+        }
+
+        private void Paste_Click(object sender, RoutedEventArgs e)
+        {
+            textEditor.Paste();
+        }
+
+        private void Indent_Click(object sender, RoutedEventArgs e)
+        {
+            (textEditor.TextArea.IndentationStrategy as CSharpIndentationStrategy).Indent(new TextDocumentAccessor(textEditor.Document), true);
+        }
+
+        #endregion
+
+        #region foldings
+
+        DispatcherTimer _foldingUpdateTimer;
+        FoldingManager _foldingManager;
+        BraceFoldingStrategy _foldingStrategy;
+
+        void UpdateFoldings()
+        {
+            _foldingStrategy.UpdateFoldings(_foldingManager, textEditor.Document);
+        }
+
+        #endregion
+
     }
 }
