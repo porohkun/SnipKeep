@@ -4,6 +4,23 @@
              xmlns:local="clr-namespace:SnipKeep"
              StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
+        <Style x:Key="GroupCheckBox" TargetType="{x:Type CheckBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                        <StackPanel Orientation="Horizontal">
+                            <Path x:Name="GroupMark" Width="16" Height="16" Fill="White" Stroke="Black" StrokeThickness="1" Data="F0 M 4.5,8.5 11.5,8.5 8,13.5 Z"/>
+                            <ContentPresenter VerticalAlignment="Center" Margin="4,0,0,0" />
+                        </StackPanel>
 
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="GroupMark" Property="Data" Value="F0 M 8.5,4.5 8.5,11.5 13.5,8 Z " />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>
