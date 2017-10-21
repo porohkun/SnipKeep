@@ -31,51 +31,45 @@ namespace SnipKeep
 
         #endregion
 
-        private static ObservableCollection<Snippet> _snippets = new ObservableCollection<Snippet>();
-        public static ObservableCollection<Snippet> Snippets { get { return _snippets; } }
+        public static ObservableCollection<Snippet> Snippets { get; } = new ObservableCollection<Snippet>();
 
-        private bool _saved = false;
-        public bool Saved { get { return _saved; } private set { _saved = value; } }
+        public bool Saved { get; private set; }
 
         private string _name = "";
         private string _description = "";
         //private string _oldFilename;
         private string _filename;
-        private string _path { get { return Path.Combine(Library.SnippetsPath, Filename); } }
-        private string _metaPath { get { return Path.Combine(Library.SnippetsPath, Path.GetFileNameWithoutExtension(Filename) + ".meta"); } }
+        private string _path => Path.Combine(Library.SnippetsPath, Filename);
+        private string _metaPath => Path.Combine(Library.SnippetsPath, Path.GetFileNameWithoutExtension(Filename) + ".meta");
         private string _text = "";
         private List<Label> _tags = new List<Label>();
 
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
-                if (_name != value)
-                {
-                    _name = value;
-                    Saved = false;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
-                }
+                if (_name == value) return;
+                _name = value;
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
             }
         }
         public string Description
         {
-            get { return _description; }
+            get => _description;
             set
             {
-                if (_description != value)
-                {
-                    _description = value;
-                    Saved = false;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
-                }
+                if (_description == value) return;
+                _description = value;
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
             }
         }
 
         public string Filename
         {
-            get { return _filename; }
+            get => _filename;
             //set
             //{
             //    if (_filename != value)
@@ -90,24 +84,23 @@ namespace SnipKeep
         }
         public string Text
         {
-            get { return _text; }
+            get => _text;
             set
             {
-                if (_text != value)
-                {
-                    _text = value;
-                    Saved = false;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
-                }
+                if (_text == value) return;
+                _text = value;
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
             }
         }
-        public IEnumerable<Label> Tags { get { return _tags; } }
+        public IEnumerable<Label> Tags => _tags;
+
         public string TagsString
         {
             get
             {
                 var sb = new StringBuilder();
-                for (int i = 0; i < _tags.Count; i++)
+                for (var i = 0; i < _tags.Count; i++)
                 {
                     sb.Append(_tags[i].Name);
                     if (i < _tags.Count - 1)
@@ -186,17 +179,15 @@ namespace SnipKeep
 
         public void Save()
         {
-            if (!Saved)
-            {
-                File.WriteAllText(_path, Text);
-                JSONValue json = new JSONObject(
-                    new JOPair("name", Name),
-                    new JOPair("tags", new JSONArray(Tags.Select(t => (JSONValue)t.Name))),
-                    new JOPair("description", Description)
-                    );
-                json.Save(_metaPath);
-                _saved = true;
-            }
+            if (Saved) return;
+            File.WriteAllText(_path, Text);
+            JSONValue json = new JSONObject(
+                new JOPair("name", Name),
+                new JOPair("tags", new JSONArray(Tags.Select(t => (JSONValue)t.Name))),
+                new JOPair("description", Description)
+            );
+            json.Save(_metaPath);
+            Saved = true;
         }
 
     }

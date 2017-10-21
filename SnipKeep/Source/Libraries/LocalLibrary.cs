@@ -12,8 +12,8 @@ namespace SnipKeep
 {
     public class LocalLibrary : Library
     {
-        public override ImageSource IconSource { get { return Icons.Sources["database.png"]; } }
-        public override string Name { get { return "Local library"; } }
+        public override ImageSource IconSource => Icons.Sources["database.png"];
+        public override string Name => "Local library";
 
         public LocalLibrary(string libraryPath)
         {

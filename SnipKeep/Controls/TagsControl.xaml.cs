@@ -48,7 +48,7 @@ namespace SnipKeep
         private void RefreshTags()
         {
             if (Tags == null) return;
-            for (int i = 0; i < Tags.Count; i++)
+            for (var i = 0; i < Tags.Count; i++)
             {
                 if (i < panel.Children.Count - 1)
                     SetTagToButton(panel.Children[i] as Button, Tags[i]);

@@ -9,7 +9,7 @@ namespace SnipKeep
 {
     public class GitLibrary : Library
     {
-        public override ImageSource IconSource { get { return Icons.Sources["git.png"]; } }
+        public override ImageSource IconSource => Icons.Sources["git.png"];
 
         public override string Name
         {

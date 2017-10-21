@@ -32,8 +32,7 @@ namespace SnipKeep
         {
             if (this.VisualChildrenCount > 0)
             {
-                Grid grid = this.GetVisualChild(0) as Grid;
-                if (grid != null && grid.ColumnDefinitions.Count == 3)
+                if (this.GetVisualChild(0) is Grid grid && grid.ColumnDefinitions.Count == 3)
                 {
                     grid.ColumnDefinitions.RemoveAt(1);
                 }

@@ -33,7 +33,8 @@ namespace SnipKeep
         public Snippet Snippet
         {
             get { return _snippet; }
-            set { _snippet = value; UpdateBindings(); }
+            set
+            { _snippet = value; UpdateBindings(); IsEnabled = value != null; }
         }
         public string SnipName
         {

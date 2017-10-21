@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace SnipKeep
 {
-    static class CustomCommands
+    internal static class CustomCommands
     {
         public static RoutedCommand NewSnippet = new RoutedCommand();
         public static RoutedCommand CopyCode = new RoutedCommand();

@@ -31,25 +31,20 @@ namespace SnipKeep
 
         public abstract ImageSource IconSource { get; }
         public abstract string Name { get; }
-        public int Count { get { return _snippets.Count; } }
-        public string LibraryPath { get { return _libraryPath; } }
-        public string SnippetsPath { get { return Path.Combine(_libraryPath, "Snippets"); } }
+        public int Count => _snippets.Count;
+        public string LibraryPath => _libraryPath;
+        public string SnippetsPath => Path.Combine(_libraryPath, "Snippets");
 
         public virtual Snippet CreateSnippet()
         {
-            var snip = new Snippet(this);
-            snip.Name = "New snippet";
-            bool unique = false;
+            var snip = new Snippet(this) { Name = "New snippet" };
+            var unique = false;
             while (!unique)
             {
                 unique = true;
-                foreach (var snippet in _snippets)
-                    if (snippet.Filename == snip.Filename)
-                    {
-                        unique = false;
-                        snip.RegenFilename();
-                        break;
-                    }
+                if (_snippets.All(snippet => snippet.Filename != snip.Filename)) continue;
+                unique = false;
+                snip.RegenFilename();
             }
             if (Clipboard.ContainsText())
                 snip.Text = Clipboard.GetText();

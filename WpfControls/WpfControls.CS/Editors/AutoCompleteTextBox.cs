@@ -264,7 +264,7 @@ namespace WpfControls.Editors
 
         private void ScrollToSelectedItem()
         {
-            ListBox listBox = ItemsSelector as ListBox;
+            var listBox = ItemsSelector as ListBox;
             if (listBox != null && listBox.SelectedItem != null)
                 listBox.ScrollIntoView(listBox.SelectedItem);
         }
@@ -485,8 +485,8 @@ namespace WpfControls.Editors
             {
                 _filter = searchText;
                 _actb.IsLoading = true;
-                ParameterizedThreadStart thInfo = new ParameterizedThreadStart(GetSuggestionsAsync);
-                Thread th = new Thread(thInfo);
+                var thInfo = new ParameterizedThreadStart(GetSuggestionsAsync);
+                var th = new Thread(thInfo);
                 th.Start(new object[] {
 				searchText,
 				_actb.Provider
@@ -510,10 +510,10 @@ namespace WpfControls.Editors
 
             private void GetSuggestionsAsync(object param)
             {
-                object[] args = param as object[];
-                string searchText = Convert.ToString(args[0]);
-                ISuggestionProvider provider = args[1] as ISuggestionProvider;
-                IEnumerable list = provider.GetSuggestions(searchText);
+                var args = param as object[];
+                var searchText = Convert.ToString(args[0]);
+                var provider = args[1] as ISuggestionProvider;
+                var list = provider.GetSuggestions(searchText);
                 _actb.Dispatcher.BeginInvoke(new Action<IEnumerable, string>(DisplaySuggestions), DispatcherPriority.Background, new object[] {
 				list,
 				searchText
