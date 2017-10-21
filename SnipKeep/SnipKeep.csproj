@@ -64,17 +64,6 @@
     <Compile Include="Controls\SnippetEditor.xaml.cs">
       <DependentUpon>SnippetEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PNetJson\DynamicEnumerable.cs" />
-    <Compile Include="PNetJson\JOPair.cs" />
-    <Compile Include="PNetJson\JSONArray.cs" />
-    <Compile Include="PNetJson\JSONLogger.cs" />
-    <Compile Include="PNetJson\JSONObject.cs" />
-    <Compile Include="PNetJson\JsonPos.cs" />
-    <Compile Include="PNetJson\JsonValidateError.cs" />
-    <Compile Include="PNetJson\JsonValidater.cs" />
-    <Compile Include="PNetJson\JSONValue.cs" />
-    <Compile Include="PNetJson\JSONValueType.cs" />
-    <Compile Include="PNetJson\Parser.cs" />
     <Compile Include="Source\Extensions.cs" />
     <Compile Include="Source\Libraries\GitLibrary.cs" />
     <Compile Include="Source\Libraries\Library.cs" />
@@ -148,6 +137,10 @@
     <Resource Include="Icons\plus.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Packages\mimi-json\MimiJson\MimiJson.csproj">
+      <Project>{215c049e-ea04-46f8-91fd-7d9242619e2b}</Project>
+      <Name>MimiJson</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfControls\WpfControls.CS\WpfControls.CS.csproj">
       <Project>{bb2abb74-ba58-4812-83aa-ec8171f42df4}</Project>
       <Name>WpfControls.CS</Name>

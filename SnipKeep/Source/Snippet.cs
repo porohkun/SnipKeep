@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-using PNetJson;
+using MimiJson;
 using System.Collections.ObjectModel;
 
 namespace SnipKeep
@@ -135,7 +135,7 @@ namespace SnipKeep
         internal void UpdateFromSaved(bool load = false)
         {
             Text = File.ReadAllText(_path);
-            var json = JSONValue.Load(_metaPath);
+            var json = JsonValue.ParseFile(_metaPath);
             _name = json["name"];
             Description = json["description"];
             foreach (var tagname in json["tags"])
@@ -181,12 +181,12 @@ namespace SnipKeep
         {
             if (Saved) return;
             File.WriteAllText(_path, Text);
-            JSONValue json = new JSONObject(
+            JsonValue json = new JsonObject(
                 new JOPair("name", Name),
-                new JOPair("tags", new JSONArray(Tags.Select(t => (JSONValue)t.Name))),
+                new JOPair("tags", new JsonArray(Tags.Select(t => (JsonValue)t.Name))),
                 new JOPair("description", Description)
             );
-            json.Save(_metaPath);
+            json.ToFile(_metaPath);
             Saved = true;
         }
 

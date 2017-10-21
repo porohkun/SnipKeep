@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnipKeep", "SnipKeep\SnipKeep.csproj", "{597B937A-3E56-4859-9C1B-0346BC9FB283}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControls.CS", "WpfControls\WpfControls.CS\WpfControls.CS.csproj", "{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimiJson", "..\..\Packages\mimi-json\MimiJson\MimiJson.csproj", "{215C049E-EA04-46F8-91FD-7D9242619E2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
