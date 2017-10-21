@@ -35,21 +35,45 @@ namespace SnipKeep
 
         private ObservableCollection<Snippet> _snippets;
         public ObservableCollection<Snippet> Snippets => _snippets ?? (_snippets = Snippet.Snippets);
-        
+
         public MainWindow()
         {
             Icons.Load();
             InitializeComponent();
             DataContext = this;
-            
+
             var view = (CollectionView)CollectionViewSource.GetDefaultView(Snippets);
             view.Filter = SnippetFilter;
+
+            if (Settings.MainWindowWidth > 0 && Settings.MainWindowHeight > 0)
+            {
+                Width = Settings.MainWindowWidth;
+                Height = Settings.MainWindowHeight;
+            }
+            WindowState = Settings.MainWindowState;
         }
-        
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            foreach (var lib in Libraries)
+                lib.SaveLibrary();
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Settings.MainWindowWidth = Width;
+            Settings.MainWindowHeight = Height;
+        }
+
+        private void MainWindow_OnStateChanged(object sender, EventArgs e)
+        {
+            Settings.MainWindowState = WindowState;
+        }
+
         private bool SnippetFilter(object item)
         {
             var snippet = item as Snippet;
-            if (Labels.Count(l=>l.Selected) == 0) return true;
+            if (Labels.Count(l => l.Selected) == 0) return true;
             foreach (var label in snippet.Tags)
                 if (label.Selected)
                     return true;
@@ -77,7 +101,7 @@ namespace SnipKeep
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedSnippet"));
             }
         }
-        
+
         #region Commands
 
         private void CommonCommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -99,7 +123,7 @@ namespace SnipKeep
         {
             Libraries[0].SaveLibrary();
         }
-        
+
         private void CommandBinding_NewSnippet(object sender, ExecutedRoutedEventArgs e)
         {
             var lib = librariesList.SelectedItem == null ? Library.Loaded[0] : (Library)librariesList.SelectedItem;
@@ -124,12 +148,6 @@ namespace SnipKeep
         }
 
         #endregion
-
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            foreach (var lib in Libraries)
-                lib.SaveLibrary();
-        }
     }
 
 }

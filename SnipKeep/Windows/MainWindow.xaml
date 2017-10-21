@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnipKeep"
         mc:Ignorable="d"
-        Title="SnipKeep" Height="400" Width="800" Closing="MainWindow_OnClosing">
+        Title="SnipKeep" Height="400" Width="800" Closing="MainWindow_OnClosing" SizeChanged="MainWindow_SizeChanged" StateChanged="MainWindow_OnStateChanged">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
