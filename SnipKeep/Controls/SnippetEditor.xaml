@@ -8,19 +8,82 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" x:Name="edit">
     <DockPanel>
-        <DockPanel DockPanel.Dock="Top">
-            <ListBox DockPanel.Dock="Right" Width="100"/>
-            <TextBox Text="{Binding SnipName}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Right"/>
-        </DockPanel>
+        <TextBox Text="{Binding SnipName}" DockPanel.Dock="Top"/>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
-        <TextBox Text="{Binding Description}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Top" TextWrapping="Wrap" Height="60"/>
+        <TextBox Text="{Binding Description}" DockPanel.Dock="Top" TextWrapping="Wrap" Height="60"/>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
         <DockPanel DockPanel.Dock="Top">
             <TextBlock DockPanel.Dock="Left" Text="Labels" Width="100" HorizontalAlignment="Right"/>
-            <local:TagsControl Tags="{Binding Tags}" DataContext="{Binding ElementName=edit}" DockPanel.Dock="Left" TagAdded="TagsControl_TagAdded" TagRemoved="TagsControl_TagRemoved"/>
+            <local:TagsControl Tags="{Binding Tags}" DockPanel.Dock="Left" TagAdded="TagsControl_TagAdded" TagRemoved="TagsControl_TagRemoved"/>
         </DockPanel>
         <Separator DockPanel.Dock="Top" Height="5" Background="{x:Null}" Foreground="{x:Null}"/>
-        <avalon:TextEditor x:Name="textEditor" DataContext="{Binding ElementName=edit}" ShowLineNumbers="True" DockPanel.Dock="Top" VerticalScrollBarVisibility="Visible" FontFamily="Consolas" FontSize="10pt" SyntaxHighlighting="C#" VerticalAlignment="Stretch">
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ListView Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}" Background="{x:Null}" >
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Background="{x:Null}" Orientation="Horizontal" CanHorizontallyScroll="True"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <!--<Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>-->
+                        <Setter Property="BorderThickness" Value="1"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderThickness="1">
+                            <TextBlock Text="{Binding Syntax}" Margin="0" />
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <!--<TextBlock Text="aaa"/>
+            <TextBlock Text="bbb"/>-->
+            </ListView>
+            <Button Grid.Column="1" Content=" + ">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="Click">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
+                                                <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
+                                            </BooleanAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.ContextMenu>
+                    <ContextMenu ItemsSource="{Binding MenuItems}">
+                        <ContextMenu.ItemContainerStyle>
+                            <Style TargetType="{x:Type MenuItem}">
+                                <Setter Property="Command" Value="{Binding Command}" />
+                            </Style>
+                        </ContextMenu.ItemContainerStyle>
+                        <ContextMenu.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" >
+                                <TextBlock Text="{Binding Header}"/>
+                            </HierarchicalDataTemplate>
+                        </ContextMenu.ItemTemplate>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+        </Grid>
+        <avalon:TextEditor x:Name="textEditor" ShowLineNumbers="True" DockPanel.Dock="Top" VerticalScrollBarVisibility="Visible"
+                           FontFamily="Consolas" FontSize="10pt" VerticalAlignment="Stretch"
+                           TextChanged="TextEditor_TextChanged"
+                           SyntaxHighlighting="{Binding Syntax}">
             <avalon:TextEditor.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Cut" Click="Cut_Click"/>

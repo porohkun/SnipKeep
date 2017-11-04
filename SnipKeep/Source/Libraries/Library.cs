@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using Microsoft.Win32;
+using MimiJson;
 
 namespace SnipKeep
 {
@@ -27,7 +29,8 @@ namespace SnipKeep
 
         protected string _libraryPath;
 
-        protected List<Snippet> _snippets = new List<Snippet>();
+        private readonly List<string> _ids = new List<string>();
+        protected readonly List<Snippet> _snippets = new List<Snippet>();
 
         public abstract ImageSource IconSource { get; }
         public abstract string Name { get; }
@@ -35,22 +38,31 @@ namespace SnipKeep
         public string LibraryPath => _libraryPath;
         public string SnippetsPath => Path.Combine(_libraryPath, "Snippets");
 
-        public virtual Snippet CreateSnippet()
+        public string GetNewId()
         {
-            var snip = new Snippet(this) { Name = "New snippet" };
-            var unique = false;
-            while (!unique)
+            string id;
+            do
             {
-                unique = true;
-                if (_snippets.All(snippet => snippet.Filename != snip.Filename)) continue;
-                unique = false;
-                snip.RegenFilename();
+                id = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());
             }
+            while (_ids.Contains(id));
+            _ids.Add(id);
+            return id;
+        }
+
+        public Snippet GetSnippet(string id)
+        {
+            return _snippets.FirstOrDefault(s => s.Id == id);
+        }
+
+        public virtual Snippet CreateSnippet(string syntax)
+        {
+            var snip = new Snippet(GetNewId(), this) { Name = "New snippet" };
+            snip.AddPart(syntax);
             if (Clipboard.ContainsText())
                 snip.Text = Clipboard.GetText();
             _snippets.Add(snip);
             Snippet.Snippets.Add(snip);
-            snip.Save();
             OnPropertyChanged(this, new PropertyChangedEventArgs("Count"));
             return snip;
         }
@@ -58,17 +70,68 @@ namespace SnipKeep
         public virtual void RemoveSnippet(Snippet snip)
         {
             _snippets.Remove(snip);
-            snip.Delete();
             Snippet.Snippets.Remove(snip);
             OnPropertyChanged(this, new PropertyChangedEventArgs("Count"));
         }
 
-        public abstract void SaveLibrary();
-        public abstract void LoadLibrary();
-        protected void RegenPatches()
+        protected abstract void Remove(Snippet snippets);
+
+        public void SaveLibrary()
         {
-            if (!Directory.Exists(SnippetsPath))
-                Directory.CreateDirectory(SnippetsPath);
+            Save(_snippets.Where(s => !s.Saved));
+        }
+
+        protected abstract void Save(IEnumerable<Snippet> snippet);
+
+        public void LoadLibrary()
+        {
+            SaveLibrary();
+            var loaded = new List<Snippet>();
+            var snipIds = _snippets.Select(s => s.Id).ToArray();
+            foreach (var operation in Load())
+            {
+                if (!snipIds.Contains(operation.Id))
+                {
+                    var snippet = operation.Load();
+                    _snippets.Add(snippet);
+                    Snippet.Snippets.Add(snippet);
+                    _ids.Add(snippet.Id);
+                    foreach (var part in snippet.Parts)
+                        _ids.Add(part.Id);
+                    loaded.Add(snippet);
+                }
+                else
+                {
+                    var snippet = GetSnippet(operation.Id);
+                    if (snippet.SaveTime < operation.SaveTime)
+                    {
+                        operation.Update(snippet);
+                        foreach (var part in snippet.Parts)
+                            if (!_ids.Contains(part.Id))
+                                _ids.Add(part.Id);
+                    }
+                    else
+                    {
+                        snippet.Saved = false;
+                    }
+                    loaded.Add(snippet);
+                }
+            }
+            var forDel = _snippets.Except(loaded).ToArray();
+            foreach (var snippet in forDel)
+                RemoveSnippet(snippet);
+            SaveLibrary();
+            OnPropertyChanged(this, new PropertyChangedEventArgs("Count"));
+        }
+
+        protected abstract IEnumerable<ILoadOperation> Load();
+
+        protected interface ILoadOperation
+        {
+            string Id { get; }
+            DateTime SaveTime { get; }
+            Snippet Load();
+            void Update(Snippet snippet);
         }
     }
 }

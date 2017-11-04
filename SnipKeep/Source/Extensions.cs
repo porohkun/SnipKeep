@@ -22,5 +22,11 @@ namespace SnipKeep
                 collection.Move(collection.IndexOf(sortableList[i]), i);
             }
         }
+
+        public static void AddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
+        {
+            foreach (var item in items)
+                collection.Add(item);
+        }
     }
 }

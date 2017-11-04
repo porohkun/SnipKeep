@@ -13,7 +13,7 @@
         <CommandBinding Command="Open"                               Executed="CommandBinding_LoadLib"       CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="Save"                               Executed="CommandBinding_SaveLib"       CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="Close"                              Executed="CommandBinding_Close"         CanExecute="CommonCommandBinding_CanExecute" />
-        <CommandBinding Command="local:CustomCommands.NewSnippet"    Executed="CommandBinding_NewSnippet"    CanExecute="CommonCommandBinding_CanExecute" />
+        <!--<CommandBinding Command="local:CustomCommands.NewSnippet"    Executed="CommandBinding_NewSnippet"    CanExecute="CommonCommandBinding_CanExecute" />-->
         <CommandBinding Command="local:CustomCommands.CopyCode"      Executed="CommandBinding_CopyCode"      CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="local:CustomCommands.DeleteSnippet" Executed="CommandBinding_DeleteSnippet" CanExecute="CommonCommandBinding_CanExecute" />
     </Window.CommandBindings>
@@ -27,10 +27,20 @@
                 <MenuItem Header="E_xit" Command="Close"/>
             </MenuItem>
             <MenuItem Header="_Snippet">
-                <MenuItem Header="_New" Command="local:CustomCommands.NewSnippet">
+                <MenuItem Header="_New" ItemsSource="{Binding MenuItems}">
                     <MenuItem.Icon>
                         <Image Source="/Icons/plus.png"/>
                     </MenuItem.Icon>
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="Command" Value="{Binding Command}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                    <MenuItem.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" ><!--ItemsSource="{Binding Path=MenuItems}">-->
+                            <TextBlock Text="{Binding Header}"/>
+                        </HierarchicalDataTemplate>
+                    </MenuItem.ItemTemplate>
                 </MenuItem>
                 <MenuItem Header="_Copy code" Command="local:CustomCommands.CopyCode">
                     <MenuItem.Icon>
@@ -46,13 +56,23 @@
             </MenuItem>
         </Menu>
         <Menu DockPanel.Dock="Top" Height="36">
-            <MenuItem Command="local:CustomCommands.NewSnippet">
+            <MenuItem ItemsSource="{Binding MenuItems}"><!--Command="local:CustomCommands.NewSnippet"-->
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Width="32" Height="32" Source="/Icons/plus.png" RenderOptions.BitmapScalingMode="NearestNeighbor" />
                         <TextBlock Text="New Snippet" VerticalAlignment="Center"/>
                     </StackPanel>
                 </MenuItem.Header>
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="{x:Type MenuItem}">
+                        <Setter Property="Command" Value="{Binding Command}" />
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+                <MenuItem.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" ><!--ItemsSource="{Binding Path=MenuItems}">-->
+                        <TextBlock Text="{Binding Header}"/>
+                    </HierarchicalDataTemplate>
+                </MenuItem.ItemTemplate>
             </MenuItem>
             <MenuItem Command="local:CustomCommands.CopyCode">
                 <MenuItem.Header>

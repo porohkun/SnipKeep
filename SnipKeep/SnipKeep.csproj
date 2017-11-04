@@ -61,18 +61,26 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\BraceFoldingStrategy.cs" />
+    <Compile Include="Controls\MenuItemViewModel.cs" />
+    <Compile Include="Controls\MyXmlFoldingStrategy.cs" />
     <Compile Include="Controls\SnippetEditor.xaml.cs">
       <DependentUpon>SnippetEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TabsLine.xaml.cs">
+      <DependentUpon>TabsLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="Source\Extensions.cs" />
     <Compile Include="Source\Libraries\GitLibrary.cs" />
     <Compile Include="Source\Libraries\Library.cs" />
-    <Compile Include="Source\Libraries\LibraryMeta.cs" />
     <Compile Include="Source\Libraries\LocalLibrary.cs" />
     <Compile Include="Source\Settings.cs" />
     <Compile Include="Source\Snippet.cs" />
     <Compile Include="Source\CustomCommands.cs" />
     <Page Include="Controls\SnippetEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TabsLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -88,12 +96,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\StretchingTreeView.cs" />
     <Compile Include="Source\Label.cs" />
     <Compile Include="Source\Icons.cs" />
     <Compile Include="Controls\TagsControl.xaml.cs">
       <DependentUpon>TagsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Source\SnippetPart.cs" />
     <Compile Include="Source\StateSuggestionProvider.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

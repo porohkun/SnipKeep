@@ -26,23 +26,49 @@ namespace SnipKeep
 
         public int CompareTo(Snippet other)
         {
-            return Name.CompareTo(other.Name);
+            return Id.CompareTo(other.Id);
         }
 
         #endregion
 
         public static ObservableCollection<Snippet> Snippets { get; } = new ObservableCollection<Snippet>();
 
-        public bool Saved { get; private set; }
+        private bool _saved;
 
+        private DateTime _saveTime = DateTime.MinValue;
         private string _name = "";
         private string _description = "";
-        //private string _oldFilename;
-        private string _filename;
-        private string _path => Path.Combine(Library.SnippetsPath, Filename);
-        private string _metaPath => Path.Combine(Library.SnippetsPath, Path.GetFileNameWithoutExtension(Filename) + ".meta");
-        private string _text = "";
-        private List<Label> _tags = new List<Label>();
+        private readonly List<SnippetPart> _parts = new List<SnippetPart>();
+        private SnippetPart _selectedPart;
+        private readonly List<Label> _tags = new List<Label>();
+
+        public Library Library { get; private set; }
+
+        public string Id { get; }
+
+        public bool Saved
+        {
+            get => _saved && (_parts.Count <= 0 || _parts.Select(p => p.Saved).Aggregate((s1, s2) => s1 && s2));
+            set
+            {
+                if (_saved == value) return;
+                _saved = value;
+                if (_saved)
+                    SaveTime = DateTime.UtcNow;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Saved"));
+            }
+        }
+
+        public DateTime SaveTime
+        {
+            get => _saveTime;
+            private set
+            {
+                if (_saveTime == value) return;
+                _saveTime = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SaveTime"));
+            }
+        }
 
         public string Name
         {
@@ -55,6 +81,7 @@ namespace SnipKeep
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
             }
         }
+
         public string Description
         {
             get => _description;
@@ -67,32 +94,28 @@ namespace SnipKeep
             }
         }
 
-        public string Filename
-        {
-            get => _filename;
-            //set
-            //{
-            //    if (_filename != value)
-            //    {
-            //        if (_oldFilename == "")
-            //            _oldFilename = _filename;
-            //        _filename = value;
-            //        Saved = false;
-            //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
-            //    }
-            //}
-        }
         public string Text
         {
-            get => _text;
+            get => _selectedPart != null ? _selectedPart.Text : "";
             set
             {
-                if (_text == value) return;
-                _text = value;
-                Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+                if (_selectedPart == null || _selectedPart.Text == value) return;
+                _selectedPart.Text = value;
             }
         }
+
+        public SnippetPart SelectedPart
+        {
+            get => _selectedPart;
+            set
+            {
+                if (_selectedPart == value) return;
+                _selectedPart = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedPart"));
+            }
+        }
+
+        public IEnumerable<SnippetPart> Parts => _parts;
         public IEnumerable<Label> Tags => _tags;
 
         public string TagsString
@@ -118,43 +141,38 @@ namespace SnipKeep
             }
         }
 
-        public Library Library { get; private set; }
-
-        internal Snippet(Library lib)
+        public Snippet(string id, Library lib)
         {
+            Id = id;
             Library = lib;
-            RegenFilename();
         }
 
-        public Snippet(Library lib, string filename) : this(lib)
+        public Snippet(string id, Library lib, DateTime saveTime, string name, string description, IEnumerable<Label> tags, IEnumerable<SnippetPart> parts) : this(id, lib)
         {
-            _filename = filename;
-            UpdateFromSaved(true);
+            _saveTime = saveTime;
+            _name = name;
+            _description = description;
+            SetTags(tags, true);
+            SetParts(parts, true);
+            _saved = true;
+            SelectedPart = _parts.FirstOrDefault();
         }
 
-        internal void UpdateFromSaved(bool load = false)
+        public void Update(string name, string description, IEnumerable<Label> tags, IEnumerable<SnippetPart> parts)
         {
-            Text = File.ReadAllText(_path);
-            var json = JsonValue.ParseFile(_metaPath);
-            _name = json["name"];
-            Description = json["description"];
-            foreach (var tagname in json["tags"])
-                AddTag(Label.GetLabelByName(tagname), true);
-            if (!load)
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            var selected = SelectedPart;
+            Name = name;
+            Description = description;
+            SetTags(tags, true);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            SetParts(parts, true);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+            SelectedPart = _parts.FirstOrDefault(p => p.Id == selected.Id) ?? _parts.FirstOrDefault();
         }
 
         internal void Delete()
         {
-            if (File.Exists(_path))
-                File.Delete(_path);
-            if (File.Exists(_metaPath))
-                File.Delete(_metaPath);
-        }
-
-        internal void RegenFilename()
-        {
-            _filename = Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".cs";
+            Library.RemoveSnippet(this);
         }
 
         public bool AddTag(Label tag, bool silent = false)
@@ -164,31 +182,89 @@ namespace SnipKeep
             _tags.Sort();
             tag.AddSnippet(this);
             if (!silent)
+            {
+                Saved = false;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            }
             return true;
         }
 
-        public bool RemoveTag(Label tag)
+        public bool RemoveTag(Label tag, bool silent = false)
         {
             if (!_tags.Contains(tag)) return false;
             _tags.Remove(tag);
             tag.RemoveSnippet(this);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            if (!silent)
+            {
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            }
             return true;
         }
 
-        public void Save()
+        public void SetTags(IEnumerable<Label> tags, bool silent = false)
         {
-            if (Saved) return;
-            File.WriteAllText(_path, Text);
-            JsonValue json = new JsonObject(
-                new JOPair("name", Name),
-                new JOPair("tags", new JsonArray(Tags.Select(t => (JsonValue)t.Name))),
-                new JOPair("description", Description)
-            );
-            json.ToFile(_metaPath);
-            Saved = true;
+            while (_tags.Count > 0)
+                RemoveTag(_tags[0], true);
+            foreach (var tag in tags)
+                AddTag(tag, true);
+            if (!silent)
+            {
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            }
         }
 
+        private void AddPart(SnippetPart part, bool silent = false)
+        {
+            _parts.Add(part);
+            part.PropertyChanged += Part_PropertyChanged;
+            if (!silent)
+            {
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+            }
+            SelectedPart = part;
+        }
+
+        public void AddPart(string syntax, bool silent = false)
+        {
+            var part = new SnippetPart(Library.GetNewId(), syntax);
+            AddPart(part, silent);
+        }
+
+        public void RemovePart(SnippetPart part, bool silent = false)
+        {
+            part.PropertyChanged -= Part_PropertyChanged;
+            _parts.Remove(part);
+            if (!silent)
+            {
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+            }
+        }
+
+        public void SetParts(IEnumerable<SnippetPart> parts, bool silent = false)
+        {
+            while (_parts.Count > 0)
+                RemovePart(_parts[0], true);
+            foreach (var part in parts)
+                AddPart(part, true);
+            if (!silent)
+            {
+                Saved = false;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+            }
+        }
+
+        private void Part_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Text")
+            {
+                Saved = false;
+                if (sender == _selectedPart)
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+            }
+        }
     }
 }

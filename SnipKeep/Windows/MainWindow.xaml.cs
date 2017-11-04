@@ -36,12 +36,16 @@ namespace SnipKeep
         private ObservableCollection<Snippet> _snippets;
         public ObservableCollection<Snippet> Snippets => _snippets ?? (_snippets = Snippet.Snippets);
 
+        public ObservableCollection<MenuItemViewModel> MenuItems { get; }
+
         public MainWindow()
         {
+            MenuItems = MenuItemViewModel.GetMenuItems(CommandBinding_NewSnippet);
+
             Icons.Load();
             InitializeComponent();
             DataContext = this;
-
+            
             var view = (CollectionView)CollectionViewSource.GetDefaultView(Snippets);
             view.Filter = SnippetFilter;
 
@@ -124,10 +128,10 @@ namespace SnipKeep
             Libraries[0].SaveLibrary();
         }
 
-        private void CommandBinding_NewSnippet(object sender, ExecutedRoutedEventArgs e)
+        private void CommandBinding_NewSnippet(string syntax)
         {
             var lib = librariesList.SelectedItem == null ? Library.Loaded[0] : (Library)librariesList.SelectedItem;
-            var snip = lib.CreateSnippet();
+            var snip = lib.CreateSnippet(syntax);
             Snippets.Sort();
             SelectedSnippet = snip;
         }

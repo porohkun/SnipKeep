@@ -3,6 +3,7 @@ using ICSharpCode.AvalonEdit.Folding;
 using ICSharpCode.AvalonEdit.Indentation.CSharp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Indentation;
 
 namespace SnipKeep
 {
@@ -32,61 +35,107 @@ namespace SnipKeep
         private Snippet _snippet;
         public Snippet Snippet
         {
-            get { return _snippet; }
-            set
-            { _snippet = value; UpdateBindings(); IsEnabled = value != null; }
-        }
-        public string SnipName
-        {
-            get { return _snippet == null ? "" : _snippet.Name; }
+            get => _snippet;
             set
             {
                 if (_snippet != null)
+                    _snippet.PropertyChanged -= Snippet_PropertyChanged;
+                _snippet = value;
+                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Name"));
+                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Description"));
+                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Tags"));
+                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Parts"));
+                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("SelectedPart"));
+                IsEnabled = value != null;
+                if (_snippet != null)
+                    _snippet.PropertyChanged += Snippet_PropertyChanged;
+            }
+        }
+
+        private void Snippet_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (PropertyChanged != null)
+                switch (e.PropertyName)
                 {
-                    _snippet.Name = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SnipName"));
+                    case "SelectedPart":
+                        textEditor.Text = Text;
+                        PropertyChanged(this, new PropertyChangedEventArgs("SelectedPart"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("Text"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("Syntax"));
+                        if (SelectedPart != null)
+                            switch (SelectedPart.Syntax)
+                            {
+                                case "Java":
+                                case "C#":
+                                case "C++":
+                                    textEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(textEditor.Options);
+                                    _foldingStrategy = new BraceFoldingStrategy();
+                                    break;
+                                case "XmlDoc":
+                                case "HTML":
+                                case "ASP/XHTML":
+                                case "XML":
+                                    textEditor.TextArea.IndentationStrategy = new DefaultIndentationStrategy();
+                                    _foldingStrategy = new MyXmlFoldingStrategy();
+                                    break;
+                            }
+                        break;
+                    case "Name": PropertyChanged(this, new PropertyChangedEventArgs("SnipName")); break;
+                    case "Description": PropertyChanged(this, new PropertyChangedEventArgs("Description")); break;
+                    case "Text": PropertyChanged(this, new PropertyChangedEventArgs("Text")); break;
+                    case "Tags": PropertyChanged(this, new PropertyChangedEventArgs("Tags")); break;
+                    case "Parts":
+                        {
+                            Parts.Clear();
+                            if (_snippet != null)
+                                foreach (var part in _snippet.Parts)
+                                    Parts.Add(part);
+                            break;
+                        }
                 }
+        }
+
+        public SnippetPart SelectedPart
+        {
+            get => _snippet?.SelectedPart;
+            set
+            {
+                if (_snippet != null && value != null)
+                    _snippet.SelectedPart = value;
+            }
+        }
+        public string SnipName
+        {
+            get => _snippet == null ? "" : _snippet.Name;
+            set
+            {
+                if (_snippet != null)
+                    _snippet.Name = value;
             }
         }
         public string Description
         {
-            get { return _snippet == null ? "" : _snippet.Description; }
+            get => _snippet == null ? "" : _snippet.Description;
             set
             {
                 if (_snippet != null)
-                {
                     _snippet.Description = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
-                }
             }
         }
-        //public string Filename
-        //{
-        //    get { return _snippet == null ? "" : _snippet.Filename; }
-        //    set
-        //    {
-        //        if (_snippet != null)
-        //        {
-        //            _snippet.Filename = value;
-        //            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
-        //        }
-        //    }
-        //}
         public string Text
         {
-            get { return _snippet == null ? "" : _snippet.Text; }
+            get => _snippet == null ? "" : _snippet.Text;
             set
             {
                 if (_snippet != null)
-                {
                     _snippet.Text = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
-                }
             }
         }
+        public IHighlightingDefinition Syntax => HighlightingManager.Instance.GetDefinition(_snippet?.SelectedPart == null ? "" : _snippet.SelectedPart.Syntax);
+
         public List<Label> Tags
         {
-            get { return _snippet == null ? null : (List<Label>)_snippet.Tags; }
+            get => (List<Label>)_snippet?.Tags;
             set
             {
                 if (_snippet != null)
@@ -95,15 +144,29 @@ namespace SnipKeep
                 }
             }
         }
+        public ObservableCollection<SnippetPart> Parts { get; } = new ObservableCollection<SnippetPart>();
+        //{
+        //    get => (List<SnippetPart>)_snippet?.Parts;
+        //    //set
+        //    //{
+        //    //    if (_snippet != null)
+        //    //    {
+        //    //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+        //    //    }
+        //    //}
+        //}
+
+        public ObservableCollection<MenuItemViewModel> MenuItems { get; set; } =
+            new ObservableCollection<MenuItemViewModel>();
 
         public SnippetEditor()
         {
+            MenuItems = MenuItemViewModel.GetMenuItems(CommandBinding_NewPart);
+
             InitializeComponent();
             DataContext = this;
-            textEditor.TextArea.IndentationStrategy = new CSharpIndentationStrategy(textEditor.Options);
-            _foldingStrategy = new BraceFoldingStrategy();
+
             _foldingManager = FoldingManager.Install(textEditor.TextArea);
-            textEditor.TextChanged += TextEditor_TextChanged;
 
             _foldingUpdateTimer = new DispatcherTimer();
             _foldingUpdateTimer.Interval = TimeSpan.FromSeconds(2);
@@ -114,16 +177,6 @@ namespace SnipKeep
         private void TextEditor_TextChanged(object sender, EventArgs e)
         {
             Text = textEditor.Text;
-        }
-
-        private void UpdateBindings()
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SnipName"));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Filename"));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
-            textEditor.Text = Text;
         }
 
         private void TagsControl_TagAdded(Label tag)
@@ -164,14 +217,19 @@ namespace SnipKeep
 
         DispatcherTimer _foldingUpdateTimer;
         FoldingManager _foldingManager;
-        BraceFoldingStrategy _foldingStrategy;
+        IFoldingStrategy _foldingStrategy;
 
         void UpdateFoldings()
         {
-            _foldingStrategy.UpdateFoldings(_foldingManager, textEditor.Document);
+            _foldingStrategy?.UpdateFoldings(_foldingManager, textEditor.Document);
         }
 
         #endregion
+
+        private void CommandBinding_NewPart(string syntax)
+        {
+            _snippet?.AddPart(syntax);
+        }
 
     }
 }

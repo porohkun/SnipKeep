@@ -26,10 +26,14 @@ using ICSharpCode.NRefactory.Editor;
 
 namespace ICSharpCode.AvalonEdit
 {
+    public interface IFoldingStrategy
+    {
+        void UpdateFoldings(FoldingManager manager, TextDocument document);
+    }
     /// <summary>
     /// Allows producing foldings from a document based on braces.
     /// </summary>
-    public class BraceFoldingStrategy
+    public class BraceFoldingStrategy: IFoldingStrategy
     {
         /// <summary>
         /// Gets/Sets the opening brace. The default value is '{'.
