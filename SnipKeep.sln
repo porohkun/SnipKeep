@@ -9,24 +9,47 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControls.CS", "WpfContro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimiJson", "..\..\Packages\mimi-json\MimiJson\MimiJson.csproj", "{215C049E-EA04-46F8-91FD-7D9242619E2B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "Installer\Installer.csproj", "{8A2D4643-2CD7-4375-AACA-61A6DFC97399}"
+EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "Setup", "Setup\Setup.aiproj", "{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		DefaultBuild|Any CPU = DefaultBuild|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{597B937A-3E56-4859-9C1B-0346BC9FB283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{597B937A-3E56-4859-9C1B-0346BC9FB283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{597B937A-3E56-4859-9C1B-0346BC9FB283}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{597B937A-3E56-4859-9C1B-0346BC9FB283}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{597B937A-3E56-4859-9C1B-0346BC9FB283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{597B937A-3E56-4859-9C1B-0346BC9FB283}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{215C049E-EA04-46F8-91FD-7D9242619E2B}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{215C049E-EA04-46F8-91FD-7D9242619E2B}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.Debug|Any CPU.ActiveCfg = DefaultBuild
+		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.Debug|Any CPU.Build.0 = DefaultBuild
+		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.DefaultBuild|Any CPU.ActiveCfg = DefaultBuild
+		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
+		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.Release|Any CPU.ActiveCfg = DefaultBuild
+		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.Release|Any CPU.Build.0 = DefaultBuild
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

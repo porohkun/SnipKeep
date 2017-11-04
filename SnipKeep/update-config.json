@@ -1,0 +1,35 @@
+﻿{
+  "version": "0.7.4.2",
+  "files": [
+    {
+      "name": "KsytalUpdater.exe",
+      "url": "https://porohkun.github.io/SnipKeep/KsytalUpdater.exe",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "MimiJson.dll",
+      "url": "https://porohkun.github.io/SnipKeep/MimiJson.dll",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "EntityFramework.dll",
+      "url": "https://porohkun.github.io/SnipKeep/ICSharpCode.AvalonEdit.dll",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "EntityFramework.SqlServer.dll",
+      "url": "https://porohkun.github.io/SnipKeep/WpfControls.dll",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "Installer.exe",
+      "url": "http://ksytal.ru/confdnls/updater/Installer.exe",
+      "path": "",
+      "action": "misc"
+    }
+  ]
+}

@@ -8,12 +8,12 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SnipKeep")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Snippet keeper")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Porohkun")]
 [assembly: AssemblyProduct("SnipKeep")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © Porohkun 2017")]
+[assembly: AssemblyTrademark("Porohkun")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.5.3.8")]
-[assembly: AssemblyFileVersion("0.5.3.8")]
+[assembly: AssemblyVersion("0.7.4.2")]
+[assembly: AssemblyFileVersion("0.7.4.2")]
