@@ -12,5 +12,6 @@ namespace SnipKeep
         public static RoutedCommand NewSnippet = new RoutedCommand();
         public static RoutedCommand CopyCode = new RoutedCommand();
         public static RoutedCommand DeleteSnippet = new RoutedCommand();
+        public static RoutedCommand AboutWindow = new RoutedCommand();
     }
 }

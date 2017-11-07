@@ -20,6 +20,22 @@ namespace SnipKeep
         public static string SettingsPath => Path.Combine(AppDataPath, "settings.json");
         public static string UpdateConfigUrl => "https://porohkun.github.io/SnipKeep/update-config.json";
 
+        private static bool _autoUpdate = true;
+        public static event EventHandler AutoUpdateChanged;
+        public static bool AutoUpdate
+        {
+            get => _autoUpdate;
+            set
+            {
+                if (value != _autoUpdate)
+                {
+                    _autoUpdate = value;
+                    AutoUpdateChanged?.Invoke(null, EventArgs.Empty);
+                    Save();
+                }
+            }
+        }
+
         #region GUI
 
         public static string Title => "SnipKeep" +
@@ -120,6 +136,7 @@ namespace SnipKeep
                 try
                 {
                     var json = JsonValue.ParseFile(SettingsPath);
+                    AutoUpdate = json["auto_update"];
                     _gui_MainWindow_Width = json["gui_main_window_width"];
                     _gui_MainWindow_Height = json["gui_main_window_height"];
                     _gui_MainWindow_LeftPanelWidth = json["gui_main_window_left_panel_width"];
@@ -142,6 +159,7 @@ namespace SnipKeep
             try
             {
                 var json = new JsonValue(new JsonObject(
+                    new JOPair("auto_update", AutoUpdate),
                     new JOPair("gui_main_window_width", GUI_MainWindow_Width),
                     new JOPair("gui_main_window_height", GUI_MainWindow_Height),
                     new JOPair("gui_main_window_left_panel_width", GUI_MainWindow_LeftPanelWidth),

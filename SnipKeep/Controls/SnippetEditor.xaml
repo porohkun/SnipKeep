@@ -21,7 +21,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions><!--SelectedItem="{Binding SelectedPart, Mode=TwoWay}"-->
+            </Grid.ColumnDefinitions>
             <ListView Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Single"
                   ItemsSource="{Binding Parts}"  SelectedIndex="{Binding SelectedPartIndex, Mode=TwoWay}" Background="{x:Null}" >
                 <ListView.ItemsPanel>

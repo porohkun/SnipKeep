@@ -47,8 +47,9 @@ namespace SnipKeep
             InitializeComponent();
             DataContext = this;
 
-            AsyncManager.Push(new AppUpdateTask());
-            
+            if (Settings.AutoUpdate)
+                AsyncManager.Push(new AppUpdateTask());
+
             var view = (CollectionView)CollectionViewSource.GetDefaultView(Snippets);
             view.Filter = SnippetFilter;
         }
@@ -58,7 +59,7 @@ namespace SnipKeep
             foreach (var lib in Libraries)
                 lib.SaveLibrary();
         }
-        
+
         private bool SnippetFilter(object item)
         {
             var snippet = item as Snippet;
@@ -134,6 +135,12 @@ namespace SnipKeep
         private void CommandBinding_CopyCode(object sender, ExecutedRoutedEventArgs e)
         {
             Clipboard.SetText(SelectedSnippet.Text);
+        }
+
+        private void CommandBinding_AboutWindow(object sender, ExecutedRoutedEventArgs e)
+        {
+            var about = new AboutWindow();
+            about.ShowDialog();
         }
 
         #endregion

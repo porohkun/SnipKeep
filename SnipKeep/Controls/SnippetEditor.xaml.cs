@@ -45,7 +45,6 @@ namespace SnipKeep
                 Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Description"));
                 Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Tags"));
                 Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Parts"));
-                //Snippet_PropertyChanged(null, new PropertyChangedEventArgs("SelectedPart"));
                 Snippet_PropertyChanged(null, new PropertyChangedEventArgs("SelectedPartIndex"));
                 IsEnabled = value != null;
                 if (_snippet != null)
@@ -60,7 +59,6 @@ namespace SnipKeep
                 {
                     case "SelectedPartIndex":
                         textEditor.Text = Text;
-                        //PropertyChanged(this, new PropertyChangedEventArgs("SelectedPart"));
                         PropertyChanged(this, new PropertyChangedEventArgs("SelectedPartIndex"));
                         PropertyChanged(this, new PropertyChangedEventArgs("Text"));
                         PropertyChanged(this, new PropertyChangedEventArgs("Syntax"));

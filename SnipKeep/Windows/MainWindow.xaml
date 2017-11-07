@@ -17,9 +17,9 @@
         <CommandBinding Command="Open"                               Executed="CommandBinding_LoadLib"       CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="Save"                               Executed="CommandBinding_SaveLib"       CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="Close"                              Executed="CommandBinding_Close"         CanExecute="CommonCommandBinding_CanExecute" />
-        <!--<CommandBinding Command="local:CustomCommands.NewSnippet"    Executed="CommandBinding_NewSnippet"    CanExecute="CommonCommandBinding_CanExecute" />-->
         <CommandBinding Command="local:CustomCommands.CopyCode"      Executed="CommandBinding_CopyCode"      CanExecute="CommonCommandBinding_CanExecute" />
         <CommandBinding Command="local:CustomCommands.DeleteSnippet" Executed="CommandBinding_DeleteSnippet" CanExecute="CommonCommandBinding_CanExecute" />
+        <CommandBinding Command="local:CustomCommands.AboutWindow"   Executed="CommandBinding_AboutWindow"   CanExecute="CommonCommandBinding_CanExecute" />
     </Window.CommandBindings>
 
     <DockPanel>
@@ -58,6 +58,9 @@
                         <Image Source="/Icons/cross.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About" Command="local:CustomCommands.AboutWindow"/>
             </MenuItem>
         </Menu>
         <Menu DockPanel.Dock="Top" Height="36">
