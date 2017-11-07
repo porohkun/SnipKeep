@@ -80,8 +80,8 @@ namespace SnipKeep
         private void Button_Loaded(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
-            (button.Template.FindName("border", button) as Border).CornerRadius = new CornerRadius(4);
-            (button.Template.FindName("contentPresenter", button) as ContentPresenter).Margin = new Thickness(3, 0, 3, 0);
+            ((Border)button.Template.FindName("border", button)).CornerRadius = new CornerRadius(4);
+            ((ContentPresenter)button.Template.FindName("contentPresenter", button)).Margin = new Thickness(3, 0, 3, 0);
         }
 
         private void ButtonPopup_Click(object sender, RoutedEventArgs e)

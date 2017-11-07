@@ -21,9 +21,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  ItemsSource="{Binding Parts}" SelectedItem="{Binding SelectedPart}" Background="{x:Null}" >
+            </Grid.ColumnDefinitions><!--SelectedItem="{Binding SelectedPart, Mode=TwoWay}"-->
+            <ListView Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Single"
+                  ItemsSource="{Binding Parts}"  SelectedIndex="{Binding SelectedPartIndex, Mode=TwoWay}" Background="{x:Null}" >
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Background="{x:Null}" Orientation="Horizontal" CanHorizontallyScroll="True"/>
@@ -46,39 +46,23 @@
                 <!--<TextBlock Text="aaa"/>
             <TextBlock Text="bbb"/>-->
             </ListView>
-            <Button Grid.Column="1" Content=" + ">
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <EventTrigger RoutedEvent="Click">
-                                <EventTrigger.Actions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="ContextMenu.IsOpen">
-                                                <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True"/>
-                                            </BooleanAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger.Actions>
-                            </EventTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-                <Button.ContextMenu>
-                    <ContextMenu ItemsSource="{Binding MenuItems}">
-                        <ContextMenu.ItemContainerStyle>
-                            <Style TargetType="{x:Type MenuItem}">
-                                <Setter Property="Command" Value="{Binding Command}" />
-                            </Style>
-                        </ContextMenu.ItemContainerStyle>
-                        <ContextMenu.ItemTemplate>
-                            <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" >
-                                <TextBlock Text="{Binding Header}"/>
-                            </HierarchicalDataTemplate>
-                        </ContextMenu.ItemTemplate>
-                    </ContextMenu>
-                </Button.ContextMenu>
-            </Button>
+            <Menu Grid.Column="1"  VerticalAlignment="Stretch">
+                <MenuItem ItemsSource="{Binding MenuItems}" VerticalAlignment="Stretch">
+                    <MenuItem.Header>
+                        <Image Width="16" Height="16" Source="/Icons/plus.png" RenderOptions.BitmapScalingMode="NearestNeighbor" Margin="4"/>
+                    </MenuItem.Header>
+                    <MenuItem.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="Command" Value="{Binding Command}" />
+                        </Style>
+                    </MenuItem.ItemContainerStyle>
+                    <MenuItem.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" >
+                            <TextBlock Text="{Binding Header}"/>
+                        </HierarchicalDataTemplate>
+                    </MenuItem.ItemTemplate>
+                </MenuItem>
+            </Menu>
         </Grid>
         <avalon:TextEditor x:Name="textEditor" ShowLineNumbers="True" DockPanel.Dock="Top" VerticalScrollBarVisibility="Visible"
                            FontFamily="Consolas" FontSize="10pt" VerticalAlignment="Stretch"

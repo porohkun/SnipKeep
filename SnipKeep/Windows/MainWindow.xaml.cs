@@ -43,18 +43,14 @@ namespace SnipKeep
             MenuItems = MenuItemViewModel.GetMenuItems(CommandBinding_NewSnippet);
 
             Icons.Load();
+
             InitializeComponent();
             DataContext = this;
+
+            AsyncManager.Push(new AppUpdateTask());
             
             var view = (CollectionView)CollectionViewSource.GetDefaultView(Snippets);
             view.Filter = SnippetFilter;
-
-            if (Settings.MainWindowWidth > 0 && Settings.MainWindowHeight > 0)
-            {
-                Width = Settings.MainWindowWidth;
-                Height = Settings.MainWindowHeight;
-            }
-            WindowState = Settings.MainWindowState;
         }
 
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
@@ -62,18 +58,7 @@ namespace SnipKeep
             foreach (var lib in Libraries)
                 lib.SaveLibrary();
         }
-
-        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Settings.MainWindowWidth = Width;
-            Settings.MainWindowHeight = Height;
-        }
-
-        private void MainWindow_OnStateChanged(object sender, EventArgs e)
-        {
-            Settings.MainWindowState = WindowState;
-        }
-
+        
         private bool SnippetFilter(object item)
         {
             var snippet = item as Snippet;

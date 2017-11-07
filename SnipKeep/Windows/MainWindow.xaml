@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SnipKeep"
         mc:Ignorable="d"
-        Title="SnipKeep" Height="400" Width="800" Closing="MainWindow_OnClosing" SizeChanged="MainWindow_SizeChanged" StateChanged="MainWindow_OnStateChanged">
+        Title="{Binding Source={x:Static local:Settings.Title}}"
+        Width="{Binding  Path=(local:Settings.GUI_MainWindow_Width), Mode=TwoWay}" MinWidth="560"
+        Height="{Binding Path=(local:Settings.GUI_MainWindow_Height), Mode=TwoWay}" MinHeight="400"
+        WindowState="{Binding Path=(local:Settings.GUI_MainWindow_State), Mode=TwoWay}"
+        Closing="MainWindow_OnClosing">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
@@ -37,7 +41,8 @@
                         </Style>
                     </MenuItem.ItemContainerStyle>
                     <MenuItem.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" ><!--ItemsSource="{Binding Path=MenuItems}">-->
+                        <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" >
+                            <!--ItemsSource="{Binding Path=MenuItems}">-->
                             <TextBlock Text="{Binding Header}"/>
                         </HierarchicalDataTemplate>
                     </MenuItem.ItemTemplate>
@@ -56,7 +61,8 @@
             </MenuItem>
         </Menu>
         <Menu DockPanel.Dock="Top" Height="36">
-            <MenuItem ItemsSource="{Binding MenuItems}"><!--Command="local:CustomCommands.NewSnippet"-->
+            <MenuItem ItemsSource="{Binding MenuItems}">
+                <!--Command="local:CustomCommands.NewSnippet"-->
                 <MenuItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image Width="32" Height="32" Source="/Icons/plus.png" RenderOptions.BitmapScalingMode="NearestNeighbor" />
@@ -69,7 +75,8 @@
                     </Style>
                 </MenuItem.ItemContainerStyle>
                 <MenuItem.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" ><!--ItemsSource="{Binding Path=MenuItems}">-->
+                    <HierarchicalDataTemplate DataType="{x:Type local:MenuItemViewModel}" >
+                        <!--ItemsSource="{Binding Path=MenuItems}">-->
                         <TextBlock Text="{Binding Header}"/>
                     </HierarchicalDataTemplate>
                 </MenuItem.ItemTemplate>
@@ -93,10 +100,14 @@
         </Menu>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="{Binding  Path=(local:Settings.GUI_MainWindow_LeftPanelWidth), Mode=TwoWay}"/>
+                <ColumnDefinition Width="{Binding  Path=(local:Settings.GUI_MainWindow_RightPanelWidth), Mode=TwoWay}"/>
+                <ColumnDefinition Width="*" MinWidth="100"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
             <ScrollViewer Grid.Column="0" Margin="0,0,5,0" VerticalScrollBarVisibility="Auto" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox x:Name="librTog" Content="Libraries" HorizontalContentAlignment="Left" IsChecked="True" Style="{StaticResource GroupCheckBox}"/>
@@ -139,6 +150,24 @@
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
             <Rectangle Grid.Column="2" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
             <local:SnippetEditor x:Name="editor" Grid.Column="2" Margin="5" IsEnabled="False"/>
+
+            <StatusBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0,1,0,0" HorizontalContentAlignment="Stretch" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
+                <StatusBarItem>
+                    <StatusBarItem.Style>
+                        <Style TargetType="StatusBarItem">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=(local:AsyncManager.Progress), Mode=OneWay}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StatusBarItem.Style>
+                    <ProgressBar Width="120" Value="{Binding Path=(local:AsyncManager.Progress), Mode=OneWay}" VerticalAlignment="Stretch" Height="18"/>
+                </StatusBarItem>
+                <StatusBarItem HorizontalAlignment="Stretch">
+                    <TextBlock Text="{Binding Path=(local:AsyncManager.Status), Mode=OneWay}"/>
+                </StatusBarItem>
+            </StatusBar>
         </Grid>
     </DockPanel>
 </Window>

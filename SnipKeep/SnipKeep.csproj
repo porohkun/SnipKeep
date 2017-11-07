@@ -72,6 +72,10 @@
     <Compile Include="Controls\TabsLine.xaml.cs">
       <DependentUpon>TabsLine.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Source\AsyncManager\AppUpdateTask.cs" />
+    <Compile Include="Source\AsyncManager\AsyncManager.cs" />
+    <Compile Include="Source\AsyncManager\IAsyncTask.cs" />
+    <Compile Include="Source\AsyncManager\TaskStatus.cs" />
     <Compile Include="Source\Extensions.cs" />
     <Compile Include="Source\Libraries\GitLibrary.cs" />
     <Compile Include="Source\Libraries\Library.cs" />

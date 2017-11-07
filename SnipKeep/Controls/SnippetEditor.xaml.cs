@@ -45,7 +45,8 @@ namespace SnipKeep
                 Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Description"));
                 Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Tags"));
                 Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Parts"));
-                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("SelectedPart"));
+                //Snippet_PropertyChanged(null, new PropertyChangedEventArgs("SelectedPart"));
+                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("SelectedPartIndex"));
                 IsEnabled = value != null;
                 if (_snippet != null)
                     _snippet.PropertyChanged += Snippet_PropertyChanged;
@@ -57,9 +58,10 @@ namespace SnipKeep
             if (PropertyChanged != null)
                 switch (e.PropertyName)
                 {
-                    case "SelectedPart":
+                    case "SelectedPartIndex":
                         textEditor.Text = Text;
-                        PropertyChanged(this, new PropertyChangedEventArgs("SelectedPart"));
+                        //PropertyChanged(this, new PropertyChangedEventArgs("SelectedPart"));
+                        PropertyChanged(this, new PropertyChangedEventArgs("SelectedPartIndex"));
                         PropertyChanged(this, new PropertyChangedEventArgs("Text"));
                         PropertyChanged(this, new PropertyChangedEventArgs("Syntax"));
                         if (SelectedPart != null)
@@ -103,6 +105,11 @@ namespace SnipKeep
                 if (_snippet != null && value != null)
                     _snippet.SelectedPart = value;
             }
+        }
+        public int SelectedPartIndex
+        {
+            get => Parts.IndexOf(SelectedPart);
+            set => SelectedPart = value == -1 ? null : Parts[value];
         }
         public string SnipName
         {
@@ -156,8 +163,7 @@ namespace SnipKeep
         //    //}
         //}
 
-        public ObservableCollection<MenuItemViewModel> MenuItems { get; set; } =
-            new ObservableCollection<MenuItemViewModel>();
+        public ObservableCollection<MenuItemViewModel> MenuItems { get; set; }
 
         public SnippetEditor()
         {

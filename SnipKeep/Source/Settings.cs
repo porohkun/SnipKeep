@@ -14,30 +14,101 @@ namespace SnipKeep
     {
         public static Version CurrentVersion => Assembly.GetExecutingAssembly().GetName().Version;
         public static string AppDataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Porohkun", "SnipKeep");
+        public static string UpdatePath => Path.Combine(AppDataPath, "Update");
         public static string AppPath => AppDomain.CurrentDomain.BaseDirectory;
         public static string LibraryPath => Path.Combine(AppDataPath, "Library");
         public static string SettingsPath => Path.Combine(AppDataPath, "settings.json");
+        public static string UpdateConfigUrl => "https://porohkun.github.io/SnipKeep/update-config.json";
 
-        private static double _mainWindowWidth = -1;
-        private static double _mainWindowHeight = -1;
-        private static WindowState _mainWindowState;
+        #region GUI
 
-        public static double MainWindowWidth
+        public static string Title => "SnipKeep" +
+#if DEBUG
+                                      " [DEBUG]" +
+#endif
+                                      " v." + CurrentVersion;
+
+        private static double _gui_MainWindow_Width = 800;
+        public static event EventHandler GUI_MainWindow_WidthChanged;
+        public static double GUI_MainWindow_Width
         {
-            get => _mainWindowWidth;
-            set { _mainWindowWidth = value; Save(); }
-        }
-        public static double MainWindowHeight
-        {
-            get => _mainWindowHeight;
-            set { _mainWindowHeight = value; Save(); }
+            get => _gui_MainWindow_Width;
+            set
+            {
+                if (value != _gui_MainWindow_Width)
+                {
+                    _gui_MainWindow_Width = value;
+                    GUI_MainWindow_WidthChanged?.Invoke(null, EventArgs.Empty);
+                    Save();
+                }
+            }
         }
 
-        public static WindowState MainWindowState
+        private static double _gui_MainWindow_Height = 400;
+        public static event EventHandler GUI_MainWindow_HeightChanged;
+        public static double GUI_MainWindow_Height
         {
-            get => _mainWindowState;
-            set { _mainWindowState = value; Save(); }
+            get => _gui_MainWindow_Height;
+            set
+            {
+                if (value != _gui_MainWindow_Height)
+                {
+                    _gui_MainWindow_Height = value;
+                    GUI_MainWindow_HeightChanged?.Invoke(null, EventArgs.Empty);
+                    Save();
+                }
+            }
         }
+
+        private static double _gui_MainWindow_LeftPanelWidth = 250;
+        public static event EventHandler GUI_MainWindow_LeftPanelWidthChanged;
+        public static double GUI_MainWindow_LeftPanelWidth
+        {
+            get => _gui_MainWindow_LeftPanelWidth;
+            set
+            {
+                if (value != _gui_MainWindow_LeftPanelWidth)
+                {
+                    _gui_MainWindow_LeftPanelWidth = value;
+                    GUI_MainWindow_LeftPanelWidthChanged?.Invoke(null, EventArgs.Empty);
+                    Save();
+                }
+            }
+        }
+
+        private static double _gui_MainWindow_RightPanelWidth = 250;
+        public static event EventHandler GUI_MainWindow_RightPanelWidthChanged;
+        public static double GUI_MainWindow_RightPanelWidth
+        {
+            get => _gui_MainWindow_RightPanelWidth;
+            set
+            {
+                if (value != _gui_MainWindow_RightPanelWidth)
+                {
+                    _gui_MainWindow_RightPanelWidth = value;
+                    GUI_MainWindow_RightPanelWidthChanged?.Invoke(null, EventArgs.Empty);
+                    Save();
+                }
+            }
+        }
+
+        private static WindowState _gui_mainWindow_State;
+        public static event EventHandler GUI_MainWindow_StateChanged;
+        public static WindowState GUI_MainWindow_State
+        {
+            get => _gui_mainWindow_State;
+            set
+            {
+                if (value != _gui_mainWindow_State)
+                {
+                    _gui_mainWindow_State = value;
+                    GUI_MainWindow_HeightChanged?.Invoke(null, EventArgs.Empty);
+                    Save();
+                }
+            }
+        }
+
+        #endregion
 
 
         static Settings()
@@ -49,9 +120,11 @@ namespace SnipKeep
                 try
                 {
                     var json = JsonValue.ParseFile(SettingsPath);
-                    MainWindowWidth = json["main_window_width"];
-                    MainWindowHeight = json["main_window_height"];
-                    MainWindowState = (WindowState)(int)json["main_window_state"];
+                    _gui_MainWindow_Width = json["gui_main_window_width"];
+                    _gui_MainWindow_Height = json["gui_main_window_height"];
+                    _gui_MainWindow_LeftPanelWidth = json["gui_main_window_left_panel_width"];
+                    _gui_MainWindow_RightPanelWidth = json["gui_main_window_right_panel_width"];
+                    _gui_mainWindow_State = (WindowState)(int)json["gui_main_window_state"];
                 }
                 catch (Exception)
                 {
@@ -69,9 +142,11 @@ namespace SnipKeep
             try
             {
                 var json = new JsonValue(new JsonObject(
-                    new JOPair("main_window_width", MainWindowWidth),
-                    new JOPair("main_window_height", MainWindowHeight),
-                    new JOPair("main_window_state", (int)MainWindowState)
+                    new JOPair("gui_main_window_width", GUI_MainWindow_Width),
+                    new JOPair("gui_main_window_height", GUI_MainWindow_Height),
+                    new JOPair("gui_main_window_left_panel_width", GUI_MainWindow_LeftPanelWidth),
+                    new JOPair("gui_main_window_right_panel_width", GUI_MainWindow_RightPanelWidth),
+                    new JOPair("main_window_state", (int)GUI_MainWindow_State)
                     ));
                 json.ToFile(SettingsPath);
             }
