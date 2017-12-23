@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnipKeep", "SnipKeep\SnipKeep.csproj", "{597B937A-3E56-4859-9C1B-0346BC9FB283}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControls.CS", "WpfControls\WpfControls.CS\WpfControls.CS.csproj", "{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimiJson", "..\..\Packages\mimi-json\MimiJson\MimiJson.csproj", "{215C049E-EA04-46F8-91FD-7D9242619E2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer", "Installer\Installer.csproj", "{8A2D4643-2CD7-4375-AACA-61A6DFC97399}"
 EndProject
 Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "Setup", "Setup\Setup.aiproj", "{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MimiJson.Net45", "..\..\Packages\mimi-json\MimiJson\MimiJson.Net45.csproj", "{9E323F98-86B0-490C-9F6A-5DE574D8DBFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControls.CS", "..\..\Packages\WPF-AutoComplete-TextBox\WpfControls\WpfControls.CS\WpfControls.CS.csproj", "{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,18 +26,6 @@ Global
 		{597B937A-3E56-4859-9C1B-0346BC9FB283}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
 		{597B937A-3E56-4859-9C1B-0346BC9FB283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{597B937A-3E56-4859-9C1B-0346BC9FB283}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
-		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
-		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{215C049E-EA04-46F8-91FD-7D9242619E2B}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
-		{215C049E-EA04-46F8-91FD-7D9242619E2B}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
-		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{215C049E-EA04-46F8-91FD-7D9242619E2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A2D4643-2CD7-4375-AACA-61A6DFC97399}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
@@ -50,8 +38,23 @@ Global
 		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
 		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.Release|Any CPU.ActiveCfg = DefaultBuild
 		{BE6CAA37-B5EC-4006-A0E9-83C7BCA213C8}.Release|Any CPU.Build.0 = DefaultBuild
+		{9E323F98-86B0-490C-9F6A-5DE574D8DBFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E323F98-86B0-490C-9F6A-5DE574D8DBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E323F98-86B0-490C-9F6A-5DE574D8DBFB}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E323F98-86B0-490C-9F6A-5DE574D8DBFB}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{9E323F98-86B0-490C-9F6A-5DE574D8DBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E323F98-86B0-490C-9F6A-5DE574D8DBFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2ABB74-BA58-4812-83AA-EC8171F42DF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F51AA41-2A2F-4746-92F6-9E0F0CC88DD7}
 	EndGlobalSection
 EndGlobal
