@@ -62,12 +62,11 @@ namespace SnipKeep
 
         private bool SnippetFilter(object item)
         {
-            var snippet = item as Snippet;
-            if (Labels.Count(l => l.Selected) == 0) return true;
-            foreach (var label in snippet.Tags)
-                if (label.Selected)
-                    return true;
-            return false;
+            if (!(item is Snippet snippet)) return false;
+            foreach (var label in Label.Labels.Where(l=>l.Selected))
+                if (!snippet.Tags.Contains(label))
+                    return false;
+            return true;
         }
 
         private void labelList_SelectionChanged(object sender, SelectionChangedEventArgs e)
