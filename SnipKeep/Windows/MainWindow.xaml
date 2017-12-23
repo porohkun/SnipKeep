@@ -104,14 +104,16 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{Binding  Path=(local:Settings.GUI_MainWindow_LeftPanelWidth), Mode=TwoWay}"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="{Binding  Path=(local:Settings.GUI_MainWindow_RightPanelWidth), Mode=TwoWay}"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*" MinWidth="100"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Column="0" Margin="0,0,5,0" VerticalScrollBarVisibility="Auto" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
+            <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalScrollBarVisibility="Auto" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox x:Name="librTog" Content="Libraries" HorizontalContentAlignment="Left" IsChecked="True" Style="{StaticResource GroupCheckBox}"/>
                     <ListView x:Name="librariesList" ItemsSource="{Binding Libraries, Mode=OneWay}" Visibility="{Binding IsChecked,ElementName=librTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{x:Null}">
@@ -139,8 +141,8 @@
                     </ListView>
                 </StackPanel>
             </ScrollViewer>
-            <GridSplitter Grid.Column="0" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
-            <ListView Grid.Column="1" Margin="0,0,5,0" SelectionMode="Single" SelectedItem="{Binding SelectedSnippet, Mode=TwoWay}" ItemsSource="{Binding Snippets, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}">
+            <GridSplitter Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch"/>
+            <ListView Grid.Column="2" Grid.Row="0" SelectionMode="Single" SelectedItem="{Binding SelectedSnippet, Mode=TwoWay}" ItemsSource="{Binding Snippets, Mode=OneWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <DockPanel Width="Auto" HorizontalAlignment="Stretch">
@@ -150,11 +152,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
-            <Rectangle Grid.Column="2" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
-            <local:SnippetEditor x:Name="editor" Grid.Column="2" Margin="5" IsEnabled="False"/>
-
-            <StatusBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="0,1,0,0" HorizontalContentAlignment="Stretch" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
+            <GridSplitter Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch"/>
+            <Rectangle Grid.Column="4" Grid.Row="0" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+            <local:SnippetEditor Grid.Column="4" Grid.Row="0" x:Name="editor" Margin="5" IsEnabled="False"/>
+            
+            <StatusBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" BorderThickness="0,1,0,0" HorizontalContentAlignment="Stretch" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
                 <StatusBarItem>
                     <StatusBarItem.Style>
                         <Style TargetType="StatusBarItem">
