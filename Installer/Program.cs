@@ -11,7 +11,7 @@ namespace Installer
 {
     class Program
     {
-        public static string AppDataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Ksytal", "KsytalUpdater");
+        public static string AppDataPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Porohkun", "SnipKeep");
         static string UpdatePath => Path.Combine(AppDataPath, "Update");
 
         static void Main(string[] args)
