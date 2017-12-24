@@ -1,0 +1,35 @@
+﻿{
+  "version": "0.7.9.3",
+  "files": [
+    {
+      "name": "SnipKeep.exe",
+      "url": "https://porohkun.github.io/SnipKeep/SnipKeep.exe",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "MimiJson.dll",
+      "url": "https://porohkun.github.io/SnipKeep/MimiJson.dll",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "ICSharpCode.AvalonEdit.dll",
+      "url": "https://porohkun.github.io/SnipKeep/ICSharpCode.AvalonEdit.dll",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "WpfControls.dll",
+      "url": "https://porohkun.github.io/SnipKeep/WpfControls.dll",
+      "path": "",
+      "action": "replace"
+    },
+    {
+      "name": "Installer.exe",
+      "url": "http://porohkun.github.io/SnipKeep/Installer.exe",
+      "path": "",
+      "action": "misc"
+    }
+  ]
+}
