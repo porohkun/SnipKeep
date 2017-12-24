@@ -61,7 +61,7 @@ namespace Installer
                 }
 
                 Console.WriteLine("updating reg version");
-                exceptions = exceptions || CatchAction(() => TestVersion.SetVersion("SnipKeep", string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build)));
+                exceptions = exceptions || CatchAction(() => TestVersion.SetVersion("SnipKeep", $"{version.Major}.{version.Minor}.{version.Build}{version.Revision:D2}"));
 
                 Console.WriteLine("all done.");
                 if (exceptions)
