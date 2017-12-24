@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="14.4" version="14.5.2" Modules="simple" RootPath="." Language="en" Id="{E90C1014-A4B0-4756-A3A3-71785CB2906C}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="14.4" version="14.4" Modules="simple" RootPath="." Language="en" Id="{E90C1014-A4B0-4756-A3A3-71785CB2906C}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent"/>
   </COMPONENT>
@@ -7,10 +7,10 @@
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
     <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_DOTNET_VERSION"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_ICSharpCode.AvalonEdit.dll" Value="..\packages\AvalonEdit.5.0.3\lib\Net40"/>
-    <ROW Property="AI_PROPPATH_DIR_PERBUILD_MimiJson.dll" Value="..\..\..\Packages\mimi-json\MimiJson\bin\Debug"/>
-    <ROW Property="AI_PROPPATH_DIR_PERBUILD_SnipKeep.exe" Value="..\SnipKeep\bin\Debug"/>
-    <ROW Property="AI_PROPPATH_DIR_PERBUILD_SnipKeep.exe.config" Value="..\SnipKeep\bin\Debug"/>
-    <ROW Property="AI_PROPPATH_DIR_PERBUILD_WpfControls.dll" Value="..\..\..\Packages\WPF-AutoComplete-TextBox\WpfControls\WpfControls.CS\bin\Debug"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_MimiJson.dll" Value="..\..\..\Packages\mimi-json\MimiJson\bin\Release"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_SnipKeep.exe" Value="..\SnipKeep\bin\Release"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_SnipKeep.exe.config" Value="..\SnipKeep\bin\Release"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_WpfControls.dll" Value="..\WpfControls\WpfControls.CS\bin\Release"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_ICSharpCode.AvalonEdit.dll" Value="ICSharpCode.AvalonEdit.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_MimiJson.dll" Value="MimiJson.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_SnipKeep.exe" Value="SnipKeep.exe"/>
@@ -25,10 +25,10 @@
     <ROW Property="ARPURLINFOABOUT" Value="https://github.com/porohkun/SnipKeep"/>
     <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/porohkun/SnipKeep"/>
     <ROW Property="Manufacturer" Value="Porohkun"/>
-    <ROW Property="ProductCode" Value="1033:{BF3632AA-5AB5-4D51-910F-7146378DA6CF} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{7B49C289-C7DD-4DED-99C6-DD8B4815A850} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="SnipKeep"/>
-    <ROW Property="ProductVersion" Value="0.7.903" Type="32"/>
+    <ROW Property="ProductVersion" Value="0.7.402" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{CDD97FAB-EF55-4B1C-8C0E-B25E930992B2}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
