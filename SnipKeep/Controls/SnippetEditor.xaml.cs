@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,6 +58,7 @@ namespace SnipKeep
             if (PropertyChanged != null)
                 switch (e.PropertyName)
                 {
+                    case "SelectedPart":
                     case "SelectedPartIndex":
                         textEditor.Text = Text;
                         PropertyChanged(this, new PropertyChangedEventArgs("SelectedPartIndex"));
@@ -150,16 +152,6 @@ namespace SnipKeep
             }
         }
         public ObservableCollection<SnippetPart> Parts { get; } = new ObservableCollection<SnippetPart>();
-        //{
-        //    get => (List<SnippetPart>)_snippet?.Parts;
-        //    //set
-        //    //{
-        //    //    if (_snippet != null)
-        //    //    {
-        //    //        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
-        //    //    }
-        //    //}
-        //}
 
         public ObservableCollection<MenuItemViewModel> MenuItems { get; set; }
 
