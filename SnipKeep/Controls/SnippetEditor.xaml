@@ -24,18 +24,31 @@
             </Grid.ColumnDefinitions>
             <ListView Grid.Column="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionMode="Single"
                   ItemsSource="{Binding Parts}"  SelectedIndex="{Binding SelectedPartIndex, Mode=TwoWay}" Background="{x:Null}" >
+                <ListView.Resources>
+                    <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
+                        <Border SnapsToDevicePixels="true" 
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}"
+                                x:Name="border" Margin="5,2">
+                            <TextBlock Text="{Binding Syntax}" Margin="0" />
+                        </Border>
+                    </ControlTemplate>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="true" >
+                                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.GradientActiveCaptionBrushKey}}"/>
+                                <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Resources>
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Background="{x:Null}" Orientation="Horizontal" CanHorizontallyScroll="True"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <!--<Setter Property="Padding" Value="0"/>
-                    <Setter Property="Margin" Value="0"/>-->
-                        <Setter Property="BorderThickness" Value="1"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" BorderThickness="1">
@@ -43,8 +56,6 @@
                         </Border>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <!--<TextBlock Text="aaa"/>
-            <TextBlock Text="bbb"/>-->
             </ListView>
             <Menu Grid.Column="1"  VerticalAlignment="Stretch">
                 <MenuItem ItemsSource="{Binding MenuItems}" VerticalAlignment="Stretch">
