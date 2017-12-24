@@ -185,6 +185,7 @@ namespace SnipKeep
             {
                 Saved = false;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
             }
             return true;
         }
@@ -198,6 +199,7 @@ namespace SnipKeep
             {
                 Saved = false;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
             }
             return true;
         }
@@ -212,6 +214,7 @@ namespace SnipKeep
             {
                 Saved = false;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
             }
         }
 
