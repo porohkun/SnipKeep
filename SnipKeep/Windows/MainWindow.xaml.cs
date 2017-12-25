@@ -27,7 +27,7 @@ namespace SnipKeep
 
         public void NotifyPropertyChanged(string property)
         {
-            PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(property));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         #endregion
@@ -78,13 +78,13 @@ namespace SnipKeep
         private void MainWindow_OnClosing(object sender, CancelEventArgs e)
         {
             foreach (var lib in Libraries)
-                lib.SaveLibrary();
+                lib.SaveLibraryImmediately();
         }
 
         private bool SnippetFilter(object item)
         {
             if (!(item is Snippet snippet)) return false;
-            foreach (var label in Label.Labels.Where(l=>l.Selected))
+            foreach (var label in Label.Labels.Where(l => l.Selected))
                 if (!snippet.Tags.Contains(label))
                     return false;
             return true;

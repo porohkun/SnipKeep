@@ -84,6 +84,11 @@ namespace SnipKeep
                 if (File.Exists(filename))
                     File.Delete(filename);
             }
+            {
+                var filename = Path.Combine(SnippetsPath, snippet.Id + ".snip");
+                if (File.Exists(filename))
+                    File.Delete(filename);
+            }
         }
 
         protected override IEnumerable<ILoadOperation> Load()

@@ -99,6 +99,7 @@ namespace SnipKeep
             _snippets.Remove(snip);
             Snippet.Snippets.Remove(snip);
             OnPropertyChanged(this, new PropertyChangedEventArgs("Count"));
+            Remove(snip);
         }
 
         protected abstract void Remove(Snippet snippets);
@@ -113,8 +114,7 @@ namespace SnipKeep
         {
             if (_bw.IsBusy && !_bw.CancellationPending)
                 _bw.CancelAsync();
-            else
-                Save(_snippets.Where(s => !s.Saved));
+            Save(_snippets.Where(s => !s.Saved));
         }
 
         protected abstract void Save(IEnumerable<Snippet> snippet);
