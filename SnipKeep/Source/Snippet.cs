@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using MimiJson;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace SnipKeep
 {
@@ -58,9 +59,13 @@ namespace SnipKeep
             {
                 if (_saved == value) return;
                 _saved = value;
+                foreach (var part in _parts)
+                    part.Saved = part.Saved || value;
                 if (_saved)
                     SaveTime = DateTime.UtcNow;
                 NotifyPropertyChanged("Saved");
+                if (_saved)
+                    MessageBox.Show("nonsaved");
             }
         }
 

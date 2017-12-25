@@ -34,6 +34,22 @@ namespace SnipKeep
 
         private ObservableCollection<Library> _libraries;
         public ObservableCollection<Library> Libraries => _libraries ?? (_libraries = Library.Loaded);
+        private Library _selectedLibrary = null;
+
+        public Library SelectedLibrary
+        {
+            get
+            {
+                if (_selectedLibrary == null)
+                    _selectedLibrary = Library.Loaded[0];
+                return _selectedLibrary;
+            }
+            set
+            {
+                _selectedLibrary = value;
+                NotifyPropertyChanged("SelectedLibrary");
+            }
+        }
 
         private ObservableCollection<Label> _labels;
         public ObservableCollection<Label> Labels => _labels ?? (_labels = Label.Labels);
@@ -110,18 +126,17 @@ namespace SnipKeep
 
         private void CommandBinding_LoadLib(object sender, ExecutedRoutedEventArgs e)
         {
-            Libraries[0].LoadLibrary();
+            SelectedLibrary?.LoadLibrary();
         }
 
         private void CommandBinding_SaveLib(object sender, ExecutedRoutedEventArgs e)
         {
-            Libraries[0].SaveLibrary();
+            SelectedLibrary?.SaveLibrary();
         }
 
         private void CommandBinding_NewSnippet(string syntax)
         {
-            var lib = librariesList.SelectedItem == null ? Library.Loaded[0] : (Library)librariesList.SelectedItem;
-            var snip = lib.CreateSnippet(syntax);
+            var snip = SelectedLibrary?.CreateSnippet(syntax);
             Snippets.Sort();
             SelectedSnippet = snip;
         }
@@ -148,6 +163,11 @@ namespace SnipKeep
         }
 
         #endregion
+
+        private void Editor_OnSnippetChanged(Snippet snippet)
+        {
+            snippet.Library.SaveLibrary();
+        }
     }
 
 }

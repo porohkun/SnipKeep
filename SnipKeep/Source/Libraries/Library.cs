@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -29,14 +30,40 @@ namespace SnipKeep
 
         protected string _libraryPath;
 
+        private BackgroundWorker _bw;
         private readonly List<string> _ids = new List<string>();
         protected readonly List<Snippet> _snippets = new List<Snippet>();
+        protected virtual double _saveDelaySeconds => 5d;
 
         public abstract ImageSource IconSource { get; }
         public abstract string Name { get; }
         public int Count => _snippets.Count;
         public string LibraryPath => _libraryPath;
         public string SnippetsPath => Path.Combine(_libraryPath, "Snippets");
+
+        protected Library()
+        {
+            _bw = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true };
+            _bw.DoWork += _bw_DoWork;
+            _bw.RunWorkerCompleted += _bw_RunWorkerCompleted;
+        }
+
+        private void _bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var started = DateTime.UtcNow;
+            while (!e.Cancel)
+            {
+                Thread.Sleep(1000);
+                if ((DateTime.UtcNow - started).TotalSeconds >= _saveDelaySeconds)
+                    break;
+
+            }
+        }
+
+        private void _bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            SaveLibraryImmediately();
+        }
 
         public string GetNewId()
         {
@@ -78,7 +105,16 @@ namespace SnipKeep
 
         public void SaveLibrary()
         {
-            Save(_snippets.Where(s => !s.Saved));
+            if (!_bw.IsBusy)
+                _bw.RunWorkerAsync();
+        }
+
+        public void SaveLibraryImmediately()
+        {
+            if (_bw.IsBusy && !_bw.CancellationPending)
+                _bw.CancelAsync();
+            else
+                Save(_snippets.Where(s => !s.Saved));
         }
 
         protected abstract void Save(IEnumerable<Snippet> snippet);

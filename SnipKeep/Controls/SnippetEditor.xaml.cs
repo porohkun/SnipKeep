@@ -40,6 +40,8 @@ namespace SnipKeep
 
         #endregion
 
+        public event Action<Snippet> SnippetChanged;
+
         private Snippet _snippet;
         public Snippet Snippet
         {
@@ -101,6 +103,11 @@ namespace SnipKeep
                                     Parts.Add(part);
                             break;
                         }
+                    case "Saved":
+                        var snippet = (Snippet)sender;
+                        if (!snippet.Saved)
+                            SnippetChanged?.Invoke(snippet);
+                        break;
                 }
         }
 

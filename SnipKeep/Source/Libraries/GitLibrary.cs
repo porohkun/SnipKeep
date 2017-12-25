@@ -12,6 +12,12 @@ namespace SnipKeep
     {
         public override ImageSource IconSource => Icons.Sources["git.png"];
         public override string Name { get; }
+
+        public GitLibrary() : base()
+        {
+
+        }
+
         protected override void Remove(Snippet snippets)
         {
             throw new NotImplementedException();

@@ -40,7 +40,7 @@ namespace SnipKeep
 
         public string Id { get; }
 
-        public bool Saved { get; private set; }
+        public bool Saved { get; set; }
 
         public string Syntax
         {
@@ -66,11 +66,12 @@ namespace SnipKeep
             }
         }
 
-        public SnippetPart(string id, string syntax, string text = "")
+        public SnippetPart(string id, string syntax, string text = "", bool saved = false)
         {
             Id = id;
             _syntax = syntax;
             _text = text;
+            Saved = saved;
         }
     }
 }

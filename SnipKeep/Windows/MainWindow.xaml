@@ -24,9 +24,9 @@
 
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="Reload Library" Command="Open"/>
-                <MenuItem Header="Save Library" Command="Save"/>
+            <MenuItem Header="_Library">
+                <MenuItem Header="Reload Library" Command="Open" IsEnabled="False"/>
+                <MenuItem Header="Save Library" Command="Save" IsEnabled="False"/>
                 <Separator/>
                 <MenuItem Header="E_xit" Command="Close"/>
             </MenuItem>
@@ -116,7 +116,7 @@
             <ScrollViewer Grid.Column="0" Grid.Row="0" VerticalScrollBarVisibility="Auto" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
                 <StackPanel Orientation="Vertical">
                     <CheckBox x:Name="librTog" Content="Libraries" HorizontalContentAlignment="Left" IsChecked="True" Style="{StaticResource GroupCheckBox}"/>
-                    <ListView x:Name="librariesList" ItemsSource="{Binding Libraries, Mode=OneWay}" Visibility="{Binding IsChecked,ElementName=librTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{x:Null}">
+                    <ListView ItemsSource="{Binding Libraries, Mode=OneWay}" SelectedItem="{Binding SelectedLibrary, Mode=TwoWay}" Visibility="{Binding IsChecked,ElementName=librTog,Converter={StaticResource b2v}}" Margin="25,0,0,0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="{x:Null}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel Width="Auto" HorizontalAlignment="Stretch">
@@ -154,7 +154,7 @@
             </ListView>
             <GridSplitter Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch"/>
             <Rectangle Grid.Column="4" Grid.Row="0" Fill="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
-            <local:SnippetEditor Grid.Column="4" Grid.Row="0" x:Name="editor" Margin="5" IsEnabled="False"/>
+            <local:SnippetEditor Grid.Column="4" Grid.Row="0" x:Name="editor" Margin="5" IsEnabled="False" SnippetChanged="Editor_OnSnippetChanged"/>
             
             <StatusBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" BorderThickness="0,1,0,0" HorizontalContentAlignment="Stretch" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}">
                 <StatusBarItem>

@@ -16,7 +16,7 @@ namespace SnipKeep
         public override ImageSource IconSource => Icons.Sources["database.png"];
         public override string Name => "Local library";
 
-        public LocalLibrary(string libraryPath)
+        public LocalLibrary(string libraryPath) : base()
         {
             _libraryPath = libraryPath;
             try
@@ -72,6 +72,7 @@ namespace SnipKeep
                 json.ToFile(Path.Combine(SnippetsPath, snippet.Id + ".snip"));
                 foreach (var part in snippet.Parts)
                     File.WriteAllText(Path.Combine(SnippetsPath, part.Id + SyntaxToExt(part.Syntax)), part.Text);
+                snippet.Saved = true;
             }
         }
 
@@ -84,7 +85,7 @@ namespace SnipKeep
                     File.Delete(filename);
             }
         }
-        
+
         protected override IEnumerable<ILoadOperation> Load()
         {
             foreach (var file in Directory.GetFiles(SnippetsPath, "*.snip", SearchOption.TopDirectoryOnly))
@@ -114,7 +115,7 @@ namespace SnipKeep
                 var json = LoadJson(_path);
                 return new Snippet(Id, _library, SaveTime, json["name"], json["description"],
                     json["tags"].Array.Select(t => Label.GetLabelByName(t)),
-                    json["parts"].Array.Select(p => new SnippetPart(p["id"], p["syntax"], p["text"])));
+                    json["parts"].Array.Select(p => new SnippetPart(p["id"], p["syntax"], p["text"], true)));
             }
 
             public void Update(Snippet snippet)
@@ -122,7 +123,7 @@ namespace SnipKeep
                 var json = LoadJson(_path);
                 snippet.Update(json["name"], json["description"],
                     json["tags"].Array.Select(t => Label.GetLabelByName(t)),
-                    json["parts"].Array.Select(p => new SnippetPart(p["id"], p["syntax"], p["text"])));
+                    json["parts"].Array.Select(p => new SnippetPart(p["id"], p["syntax"], p["text"], true)));
             }
 
             private JsonValue LoadJson(string file)
