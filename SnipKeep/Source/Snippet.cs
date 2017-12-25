@@ -64,8 +64,6 @@ namespace SnipKeep
                 if (_saved)
                     SaveTime = DateTime.UtcNow;
                 NotifyPropertyChanged("Saved");
-                if (_saved)
-                    MessageBox.Show("nonsaved");
             }
         }
 
