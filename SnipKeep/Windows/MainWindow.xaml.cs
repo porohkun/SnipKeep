@@ -25,6 +25,11 @@ namespace SnipKeep
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void NotifyPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this,new PropertyChangedEventArgs(property));
+        }
+
         #endregion
 
         private ObservableCollection<Library> _libraries;
@@ -87,7 +92,7 @@ namespace SnipKeep
                 if (_selectedSnippet == value) return;
                 _selectedSnippet = value;
                 editor.Snippet = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedSnippet"));
+                NotifyPropertyChanged("SelectedSnippet");
             }
         }
 

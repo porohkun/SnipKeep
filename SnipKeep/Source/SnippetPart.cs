@@ -15,6 +15,11 @@ namespace SnipKeep
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void NotifyPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         #endregion
         #region IComparable, IComparable<SnippetPart> Members
 
@@ -45,7 +50,7 @@ namespace SnipKeep
             //    if (_syntax == value) return;
             //    _syntax = value;
             //    Saved = false;
-            //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Syntax"));
+            //    NotifyPropertyChanged("Syntax");
             //}
         }
 
@@ -57,7 +62,7 @@ namespace SnipKeep
                 if (_text == value) return;
                 _text = value;
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+                NotifyPropertyChanged("Text");
             }
         }
 

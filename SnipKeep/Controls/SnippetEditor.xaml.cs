@@ -30,7 +30,14 @@ namespace SnipKeep
     public partial class SnippetEditor : UserControl, INotifyPropertyChanged
     {
         #region INotifyPropertyChanged Members
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         #endregion
 
         private Snippet _snippet;
@@ -42,11 +49,11 @@ namespace SnipKeep
                 if (_snippet != null)
                     _snippet.PropertyChanged -= Snippet_PropertyChanged;
                 _snippet = value;
-                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Name"));
-                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Description"));
-                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Tags"));
-                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("Parts"));
-                Snippet_PropertyChanged(null, new PropertyChangedEventArgs("SelectedPartIndex"));
+                Snippet_PropertyChanged(_snippet, new PropertyChangedEventArgs("Name"));
+                Snippet_PropertyChanged(_snippet, new PropertyChangedEventArgs("Description"));
+                Snippet_PropertyChanged(_snippet, new PropertyChangedEventArgs("Tags"));
+                Snippet_PropertyChanged(_snippet, new PropertyChangedEventArgs("Parts"));
+                Snippet_PropertyChanged(_snippet, new PropertyChangedEventArgs("SelectedPartIndex"));
                 IsEnabled = value != null;
                 if (_snippet != null)
                     _snippet.PropertyChanged += Snippet_PropertyChanged;
@@ -61,9 +68,9 @@ namespace SnipKeep
                     case "SelectedPart":
                     case "SelectedPartIndex":
                         textEditor.Text = Text;
-                        PropertyChanged(this, new PropertyChangedEventArgs("SelectedPartIndex"));
-                        PropertyChanged(this, new PropertyChangedEventArgs("Text"));
-                        PropertyChanged(this, new PropertyChangedEventArgs("Syntax"));
+                        NotifyPropertyChanged("SelectedPartIndex");
+                        NotifyPropertyChanged("Text");
+                        NotifyPropertyChanged("Syntax");
                         if (SelectedPart != null)
                             switch (SelectedPart.Syntax)
                             {
@@ -82,10 +89,10 @@ namespace SnipKeep
                                     break;
                             }
                         break;
-                    case "Name": PropertyChanged(this, new PropertyChangedEventArgs("SnipName")); break;
-                    case "Description": PropertyChanged(this, new PropertyChangedEventArgs("Description")); break;
-                    case "Text": PropertyChanged(this, new PropertyChangedEventArgs("Text")); break;
-                    case "Tags": PropertyChanged(this, new PropertyChangedEventArgs("Tags")); break;
+                    case "Name": NotifyPropertyChanged("SnipName"); break;
+                    case "Description": NotifyPropertyChanged("Description"); break;
+                    case "Text": NotifyPropertyChanged("Text"); break;
+                    case "Tags": NotifyPropertyChanged("Tags"); break;
                     case "Parts":
                         {
                             Parts.Clear();
@@ -147,7 +154,7 @@ namespace SnipKeep
             {
                 if (_snippet != null)
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+                    NotifyPropertyChanged("Tags");
                 }
             }
         }

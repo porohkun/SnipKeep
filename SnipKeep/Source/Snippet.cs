@@ -16,6 +16,11 @@ namespace SnipKeep
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void NotifyPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         #endregion
         #region IComparable, IComparable<Snippet> Members
 
@@ -55,7 +60,7 @@ namespace SnipKeep
                 _saved = value;
                 if (_saved)
                     SaveTime = DateTime.UtcNow;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Saved"));
+                NotifyPropertyChanged("Saved");
             }
         }
 
@@ -66,7 +71,7 @@ namespace SnipKeep
             {
                 if (_saveTime == value) return;
                 _saveTime = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SaveTime"));
+                NotifyPropertyChanged("SaveTime");
             }
         }
 
@@ -78,7 +83,7 @@ namespace SnipKeep
                 if (_name == value) return;
                 _name = value;
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
+                NotifyPropertyChanged("Name");
             }
         }
 
@@ -90,7 +95,7 @@ namespace SnipKeep
                 if (_description == value) return;
                 _description = value;
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
+                NotifyPropertyChanged("Description");
             }
         }
 
@@ -111,7 +116,7 @@ namespace SnipKeep
             {
                 if (_selectedPart == value) return;
                 _selectedPart = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("SelectedPart"));
+                NotifyPropertyChanged("SelectedPart");
             }
         }
 
@@ -137,7 +142,7 @@ namespace SnipKeep
                 var line = value.Replace(" ", "").Split(',').ToArray();
                 _tags.Clear();
                 _tags.AddRange(Label.Labels.Where(l => line.Contains(l.Name)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
+                NotifyPropertyChanged("TagsString");
             }
         }
 
@@ -164,9 +169,9 @@ namespace SnipKeep
             Name = name;
             Description = description;
             SetTags(tags, true);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
+            NotifyPropertyChanged("Tags");
             SetParts(parts, true);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+            NotifyPropertyChanged("Parts");
             SelectedPart = _parts.FirstOrDefault(p => p.Id == selected.Id) ?? _parts.FirstOrDefault();
         }
 
@@ -184,8 +189,8 @@ namespace SnipKeep
             if (!silent)
             {
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
+                NotifyPropertyChanged("Tags");
+                NotifyPropertyChanged("TagsString");
             }
             return true;
         }
@@ -198,8 +203,8 @@ namespace SnipKeep
             if (!silent)
             {
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
+                NotifyPropertyChanged("Tags");
+                NotifyPropertyChanged("TagsString");
             }
             return true;
         }
@@ -213,8 +218,8 @@ namespace SnipKeep
             if (!silent)
             {
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Tags"));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TagsString"));
+                NotifyPropertyChanged("Tags");
+                NotifyPropertyChanged("TagsString");
             }
         }
 
@@ -225,7 +230,7 @@ namespace SnipKeep
             if (!silent)
             {
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+                NotifyPropertyChanged("Parts");
             }
             SelectedPart = part;
         }
@@ -243,7 +248,7 @@ namespace SnipKeep
             if (!silent)
             {
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+                NotifyPropertyChanged("Parts");
             }
         }
 
@@ -256,7 +261,7 @@ namespace SnipKeep
             if (!silent)
             {
                 Saved = false;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Parts"));
+                NotifyPropertyChanged("Parts");
             }
         }
 
@@ -266,7 +271,7 @@ namespace SnipKeep
             {
                 Saved = false;
                 if (sender == _selectedPart)
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Text"));
+                    NotifyPropertyChanged("Text");
             }
         }
     }

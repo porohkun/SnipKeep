@@ -16,6 +16,11 @@ namespace SnipKeep
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public void NotifyPropertyChanged(string property)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         #endregion
         #region IComparable, IComparable<Label> Members
 
@@ -44,7 +49,7 @@ namespace SnipKeep
             {
                 if (_name == value) return;
                 _name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Name"));
+                NotifyPropertyChanged("Name");
             }
         }
         public bool Selected
@@ -54,7 +59,7 @@ namespace SnipKeep
             {
                 if (_selected == value) return;
                 _selected = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Selected"));
+                NotifyPropertyChanged("Selected");
             }
         }
         public int Count => _snippets.Count;
@@ -68,14 +73,14 @@ namespace SnipKeep
         {
             if (_snippets.Contains(snip)) return;
             _snippets.Add(snip);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Count"));
+            NotifyPropertyChanged("Count");
         }
 
         internal void RemoveSnippet(Snippet snip)
         {
             if (!_snippets.Contains(snip)) return;
             _snippets.Remove(snip);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Count"));
+            NotifyPropertyChanged("Count");
         }
 
         internal static Label GetLabelByName(string tag)
