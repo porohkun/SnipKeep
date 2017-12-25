@@ -25,13 +25,15 @@ namespace SnipKeep
         {
             return new ObservableCollection<MenuItemViewModel>
             {
+                new MenuItemViewModel(action) { Header = "Plain text", Syntax = "Text"},
                 new MenuItemViewModel(action) { Header = "C#", Syntax = "C#"},
                 new MenuItemViewModel(action) { Header = "C++", Syntax = "C++"},
                 new MenuItemViewModel(action) { Header = "XML/XAML", Syntax = "XML" },
                 new MenuItemViewModel(action) { Header = "HTML", Syntax = "HTML" },
                 new MenuItemViewModel(action) { Header = "ASP/XHTML", Syntax = "ASP/XHTML" },
                 new MenuItemViewModel(action) { Header = "JSON", Syntax = "Java" },
-                new MenuItemViewModel(action) { Header = "Java", Syntax = "Java" }
+                new MenuItemViewModel(action) { Header = "Java", Syntax = "Java" },
+                new MenuItemViewModel(action) { Header = "SQL", Syntax = "SQL" }
             };
         }
 

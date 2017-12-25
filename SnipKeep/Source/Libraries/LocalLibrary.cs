@@ -50,6 +50,7 @@ namespace SnipKeep
                 case "VB": return ".vb";
                 case "XML": return ".xml";
                 case "MarkDown": return ".md";
+                case "SQL": return ".sql";
                 default: return ".txt";
             }
         }

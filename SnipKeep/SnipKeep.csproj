@@ -149,6 +149,7 @@
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="Resources\LICENSE" />
+    <EmbeddedResource Include="Resources\sql.xshd" />
     <None Include="update-config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
