@@ -10,7 +10,7 @@
         <local:LabelsSuggestionProvider x:Key="LabelsSuggestionProvider"/>
         <DataTemplate x:Key="StateTemplate">
             <Grid>
-                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                <TextBlock Text="{Binding Path=Name}"/>
             </Grid>
         </DataTemplate>
         <ContextMenu x:Key="popup">
